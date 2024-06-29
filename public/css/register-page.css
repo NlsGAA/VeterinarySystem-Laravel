@@ -1,0 +1,73 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(-80deg, #a7d9b3, #04191a, #001214);
+}
+
+.header-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.body-form-register .div-email {
+    position: relative;
+    width: 100%;
+    margin: 5px 0;
+}
+
+.password,
+#email,
+#name {
+    width: 100%;
+    height: 35px;
+    border-radius: 40px;
+    border: none;
+    outline: none;
+    margin-bottom: 8px;
+}
+
+label {
+    color: #8c6464;
+    margin: 5px;
+}
+
+.btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    transition: 0.8s;
+    margin-top: 10px;
+}
+
+#btn-login:hover {
+    transform: translatey(-3px);
+    transition: 0.4s;
+    box-shadow: 0 0 10px 2px gold;
+}
+
+.body-form-register {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+}
+
+.animal-register-page img {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 500px;
+    height: 100vh; /* Define a altura da imagem como 100% da altura da viewport */
+    object-fit: cover; /* Mantém a proporção da imagem e a corta para preencher a área */
+    z-index: -1; /* Coloca a imagem atrás do conteúdo da página */
+}

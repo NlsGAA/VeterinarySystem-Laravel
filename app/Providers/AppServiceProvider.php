@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\PatientsRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+use PatientsRepository;
+use App\Services\PatientsServices;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            PatientsRepositoryInterface::class,
+            PatientsRepository::class
+        );
     }
 
     /**

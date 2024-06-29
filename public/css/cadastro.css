@@ -1,0 +1,117 @@
+body {
+    background-color: #333;
+}
+
+.header-form {
+    display: flex;
+    align-items: center;
+    font-size: 33px;
+    font-weight: bold;
+    color: white;
+}
+
+.header-form-nome-sobrenome {
+    display: flex;
+}
+
+.input-custom {
+    background-color: #fff;
+    color: black;
+    border-radius: 50px;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+.header-form-item {
+    padding: 5px;
+}
+
+.input_password {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+svg {
+    margin-left: -8%;
+}
+
+svg:hover {
+    cursor: pointer;
+}
+
+.btn-success {
+    background-color: #42ab39;
+    border: #42ab39;
+    box-shadow: 1px 3px 10px 0px #3e3e3e;
+    width: 100%;
+    border-radius: 50px;
+    height: 50px;
+}
+
+.form-body {
+    width: 500px;
+    background-color: black;
+    opacity: 95%;
+    padding: 15px;
+    border-radius: 35px;
+    margin-top: 10%;
+    margin: auto;
+}
+
+.form-check {
+    color: #fff;
+}
+
+.check_terms {
+    display: flex;
+    justify-content: center;
+    letter-spacing: 2px;
+}
+
+#header_all {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 15px;
+}
+
+.logo {
+    height: 11vh;
+    box-shadow: 1px 3px 10px 0px #d4c640;
+    border-radius: 27px;
+    margin-right: 10px;
+}
+
+h1 {
+    font-size: 50px;
+    color: #42ab39;
+}
+
+#page-login {
+    color: pink;
+    font-size: 15px;
+    margin-right: 1%;
+    display: flex;
+    justify-content: center;
+}
+
+::placeholder {
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+label {
+    color: #fff;
+}
+
+.input-password-content {
+    display: inline-block;
+}
+
+.input-password-content svg {
+    margin-top: 50px;
+    margin-left: -30px;
+}

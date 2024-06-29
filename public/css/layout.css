@@ -1,0 +1,33 @@
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#nav-bar ul li {
+    border-radius: 5px;
+    transition: 0.5s;
+}
+
+#nav-bar ul li:hover {
+    transition: 0.34s;
+    background-color: #6dbe45;
+}
+
+.footer-body {
+    background-color: #fff;
+    width: 100%;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center;
+    overflow: hidden; /* Esconde o conteúdo extra se não couber */
+}
+
+.footer-content h5,
+.footer-content h3 {
+    margin: 0; /* Remova margens padrão para evitar espaço extra */
+}

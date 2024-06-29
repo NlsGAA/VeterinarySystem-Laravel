@@ -1,0 +1,19 @@
+.info-animal {
+    margin-top: 1%;
+}
+
+#info-container p {
+    font-size: 14px;
+    margin-top: -5px;
+    display: flex;
+}
+
+#image-container {
+    text-align: center;
+}
+
+#image-container img {
+    width: 350px;
+    margin: 10px 0 0 80px;
+    border: 2px solid #333;
+}

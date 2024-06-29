@@ -1,0 +1,19 @@
+.dashboard-title-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+.dashboard-title-container a {
+    margin-right: 30px;
+    height: fit-content;
+}
+
+.dashboard-registros-container th {
+    width: 20%;
+}
+
+.dashboard-registros-container form {
+    display: inline-block;
+}

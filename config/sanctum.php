@@ -33,7 +33,7 @@ return [
     |
     */
 
-    'guard' => ['web'],
+    'guard' => 'web', // Alterado para 'web' para coincidir com o guard do Jetstream
 
     /*
     |--------------------------------------------------------------------------

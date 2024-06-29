@@ -1,0 +1,121 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #4caf50;
+}
+
+.body-form {
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #313131;
+    border-radius: 10px;
+    padding: 10px 20px;
+    background: transparent;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.header-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-form h1 {
+    margin: -2px 0 5px 0;
+    text-align: center;
+    color: #fff;
+}
+
+.header-form svg {
+    margin: 0 5px;
+    height: 30px;
+    color: #fff;
+}
+
+.body-form .div-email {
+    position: relative;
+    width: 100%;
+    margin: 5px 0;
+}
+
+.password,
+#email,
+#name {
+    width: 100%;
+    height: 35px;
+    border-radius: 40px;
+    border: none;
+    outline: none;
+}
+
+label {
+    color: #000;
+    margin: 5px;
+}
+
+#PawIconImage {
+    display: flex;
+    width: 200px;
+    position: relative;
+    top: 18%;
+    left: 26%;
+    transform: translate(-18%, -26%);
+}
+
+.remember-forgot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    margin: 5px 5px 15px -2px;
+}
+
+.remember-forgot a {
+    font-size: 13.5px;
+    color: #000;
+}
+
+.remember-forgot #remember_me {
+    accent-color: #fff;
+}
+
+.remember-forgot a:hover {
+    color: #fff;
+}
+
+.btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    transition: 0.8s;
+}
+
+.input-password-content {
+    display: flex;
+    justify-content: center;
+}
+
+.input-password-content svg {
+    margin: auto;
+    cursor: pointer;
+    margin-left: -30px;
+}
+
+#btn-login:hover {
+    transform: translatey(-3px);
+    transition: 0.4s;
+    box-shadow: 0 0 10px 2px gold;
+}

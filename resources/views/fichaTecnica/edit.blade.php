@@ -7,7 +7,7 @@
 <div class="col-md-6 offset-md-6" id="background-form">
     <h2>Editando: {{ $registros->nome }}</h2>
     <div id="form-body">
-        <form method="POST" action="/fichaTecnica/update/ {{ $registros->id }}" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row mb-1">
@@ -77,6 +77,35 @@
                 </div>
             </div>
 
+            <div class="col-md-10">
+                <label for="motivoCadastro" class="form-label">Motivo do cadastro:</label>
+                <select class="form-select" name="motivoCadastro" id="motivoCadastro" required>
+                    @switch($registros->motivoCadastro)
+                    @case(1)
+                        <option value="{{$registros->motivoCastro}}" selected>
+                        <p>Serviços gerais</p>
+                        </option>
+                        <option value="2">Internamento</option>
+                        <option value="3">Consulta</option>
+                        @break
+                    @case(2)
+                        <option value="{{$registros->motivoCastro}}" selected>
+                            Internamento
+                        </option>
+                        <option value="1">Serviços gerais</option>
+                        <option value="3">Consulta</option>
+                        @break
+                    @case(3)
+                        <option value="{{$registros->motivoCastro}}" selected>
+                            Consulta
+                        </option>
+                        <option value="1">Serviços gerais</option>
+                        <option value="2">Internamento</option>
+                        @break
+                    @endswitch
+                </select>
+            </div>
+
             <div class="row mb-1">
                 <div class="col-md-12">
                     <input class="btn btn-success" type="submit" value="Salvar">
@@ -128,5 +157,34 @@
             <input type="submit" value="Salvar">
         </div> --}}
     </form>
+
+    <script>
+        $(document).ready(function() {
+            $('form').on('submit', function(e) {
+                e.preventDefault();
+    
+                var formData = new FormData(this);
+                var token = "{{ auth()->user()->createToken('TokenName')->plainTextToken }}";
+    
+                $.ajax({
+                    url: "{{ route('patient.update', $registros->id) }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function(response) {
+                        window.location.href = "{{ route('patient.dashboard') }}";
+                    },
+                    error: function(response) {
+                        alert('Erro ao editar paciente.');
+                    }
+                });
+            });
+        });
+    </script>
 
 @endsection

@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 
 class UpdatePatientDTO
 {
-    private string $id;
-    private string $nome;
-    private string $raca;
-    private string $especie;
-    private float $peso;
-    private int $tipoPeso;
-    private string $coloracao;
-    private int $idade;
-    private int $tipoIdade;
-    private string $procedencia;
+    public string $id;
+    public string $nome;
+    public string $raca;
+    public string $especie;
+    public float $peso;
+    public int $tipoPeso;
+    public string $coloracao;
+    public int $idade;
+    public int $tipoIdade;
+    public string $procedencia;
 
     public function __construct(Request $request)
     {

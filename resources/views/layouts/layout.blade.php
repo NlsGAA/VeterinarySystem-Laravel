@@ -11,20 +11,27 @@
     <link rel="stylesheet" href="/css/detailsAnimal.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
 
     <header>
         <x-nav></x-nav>
     </header>
-
+    
+    
     <main>
         <div class="container-fluid">
             <div class="row">
                 @if(session('msg'))
                     <p class="msg"> {{ session('msg') }} </p>
                 @endif
+                
                 @yield('content')
+
+                @guest
+                    <x-guest-page></x-guest-page>
+                @endguest
             </div>
         </div>
     </main>

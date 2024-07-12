@@ -4,36 +4,39 @@ namespace App\Services;
 
 use App\DTO\CreatePatientDTO;
 use App\DTO\UpdatePatientDTO;
+use App\Models\Patient;
 use App\Repositories\Contracts\PatientsRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use stdClass;
 
 class PatientsServices
 {
-    private function __construct(
+    public function __construct(
         private PatientsRepositoryInterface $patientsRepository
     ){
     }
 
-    public function index(string $filter = null): array
+    public function index(Request $filter)
     {
         return $this->patientsRepository->getAll($filter);
     }
-    public function create(CreatePatientDTO $createPatientDTO): stdClass
+    public function create(CreatePatientDTO $createPatientDTO)
     {
         return $this->patientsRepository->create($createPatientDTO);
     }
 
-    public function update(UpdatePatientDTO $updatePatientDTO): stdClass|null
+    public function update(UpdatePatientDTO $updatePatientDTO): Patient
     {
         return $this->patientsRepository->update($updatePatientDTO);
     }
 
-    public function findOne(string $id): stdClass|null
+    public function findOne(string $id): Patient
     {
         return $this->patientsRepository->findOne($id);
     }
 
-    public function delete(string $id): void
+    public function delete(string $id)
     {
         $this->patientsRepository->delete($id);
     }

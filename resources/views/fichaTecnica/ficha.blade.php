@@ -4,12 +4,10 @@
 
 @section('content')
 
-    <div class="col-md-6 offset-md-6" id="background-form">
-        <form method="POST" action="{{route('animal.create')}}" enctype="multipart/form-data">
+    <div class="col-md-12 offset-md-6" id="background-form">
+        <form method="POST" enctype="multipart/form-data">
             @csrf
             <div id="form-body">
-
-                {{-- Bootstrap --}}
                 <div class="row mb-1">
                     <div class="col-md-5">
                         <label for="image" class="form-label">Imagem:</label>
@@ -41,7 +39,7 @@
                     </div>
                     <div class="col-md-5">
                         <label class="form-label">Tipo de Peso:</label>
-                        <select class="form-select" name="tipoPeso">
+                        <select class="form-select" name="tipoPeso" id="tipoPeso">
                             <option value="0">Kilos</option>
                             <option value="1">Gramas</option>
                         </select>
@@ -62,7 +60,7 @@
                     </div>
                     <div class="col-md-5">
                         <label class="form-label">Tipo de Idade:</label>
-                        <select class="form-select" name="tipoIdade">
+                        <select class="form-select" name="tipoIdade" id="tipoIdade">
                             <option value="0">Anos</option>
                             <option value="1">Meses</option>
                         </select>
@@ -76,14 +74,51 @@
                     </div>
                 </div>
 
+                <div class="col-md-10">
+                    <label for="motivoCadastro" class="form-label">Motivo do cadastro:</label>
+                    <select class="form-select" name="motivoCadastro" id="motivoCadastro" required>
+                        <option value="1" selected>Serviços gerais</option>
+                        <option value="2">Internamento</option>
+                        <option value="3">Consulta</option>
+                    </select>
+                </div>
+
                 <div class="row mb-1">
                     <div class="col-md-12">
                         <input class="btn btn-success" type="submit" value="Registrar">
                     </div>
                 </div>
-
             </div>
         </form>
     </div>
+
+<script>
+    $(document).ready(function() {
+        $('form').on('submit', function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            var token = "{{ auth()->user()->createToken('TokenName')->plainTextToken }}";
+
+            $.ajax({
+                url: "{{ route('patient.create') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    window.location.href = "{{ route('patient.dashboard') }}";
+                },
+                error: function(response) {
+                    alert('Erro ao criar paciente.');
+                }
+            });
+        });
+    });
+</script>
 
 @endsection

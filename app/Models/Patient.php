@@ -9,7 +9,7 @@ class Patient extends Model
 {
     use HasFactory;
 
-    protected $table = 'ficha_tecs';
+    protected $table = 'patients';
 
     protected $guarded = [];
 

@@ -1,9 +1,14 @@
 <?php
 
+namespace App\Repositories;
+
 use App\DTO\CreatePatientDTO;
 use App\DTO\UpdatePatientDTO;
 use App\Models\Patient;
 use App\Repositories\Contracts\PatientsRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use stdClass;
 
 class PatientsRepository implements PatientsRepositoryInterface
 {
@@ -11,21 +16,24 @@ class PatientsRepository implements PatientsRepositoryInterface
         private Patient $patient
     ){}
 
-    public function getAll(string $filter = null): array
+    public function getAll(Request $filter)
     {
+        if($filter->statusCode)
+        {
+            return $this->patient
+                        ->where('motivoCadastro', 'like', $filter->statusCode)
+                        ->get()
+                        ->toArray();
+        }
+
         return $this->patient
                     ->all()
                     ->toArray();
     }
 
-    public function findOne(string $id): stdClass|null
+    public function findOne(string $id): Model
     {
-        $patient = $this->patient->find($id);
-        if(!$patient){
-            return null;
-        }
-
-        return (object) $patient->toArray();
+        return $this->patient->findOrFail($id);
     }
 
     public function create(CreatePatientDTO $createPatientDTO): stdClass
@@ -37,22 +45,23 @@ class PatientsRepository implements PatientsRepositoryInterface
         return (object) $patient->toArray();
     }
 
-    public function update(UpdatePatientDTO $updatePatientDTO): stdClass|null
+    public function update(UpdatePatientDTO $updatePatientDTO): Patient
     {
-        if(!$patient = $this->patient->find($updatePatientDTO->id))
-        {
-            return null;
-        }
+        return $this->patient->find($updatePatientDTO->id);
+        // if(!$patient = $this->patient->find($updatePatientDTO->id))
+        // {
+        //     return null;
+        // }
 
-        $patient->update(
-            (array) $updatePatientDTO
-        );
+        // $patient->update(
+        //     (array) $updatePatientDTO
+        // );
 
-        return (object) $patient->toArray();
+        // return (object) $patient->toArray();
     }
 
     public function delete(string $id): void
     {
-        $this->patient->findOrFail($id)->delete();
+        $this->patient->find($id)->delete();
     }
 }

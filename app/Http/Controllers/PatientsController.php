@@ -13,20 +13,22 @@ use Illuminate\Support\Facades\Auth;
 class PatientsController extends Controller
 {
     public function __construct(
-        private PatientsServices $patientsServices
+        protected PatientsServices $patientsServices
     ){}
 
     public function store(Request $request)
     {
+
         try {
-            
-            $patient = $this->patientsServices->create(new CreatePatientDTO($request));
+            $logged_user_id = Auth::id();
+            $patient = $this->patientsServices->create(new CreatePatientDTO($request, $logged_user_id));
         } catch (Exception $e) {
             return $e;
         }
         return response()->json($patient, 200);
-        // $registerPatient = new Patient();
 
+        
+        // $registerPatient = new Patient();
         // $registerPatient->nome = $request->nome;
         // $registerPatient->raca = $request->raca;
         // $registerPatient->especie = $request->especie;
@@ -36,7 +38,6 @@ class PatientsController extends Controller
         // $registerPatient->idade = $request->idade;
         // $registerPatient->tipoIdade = $request->tipoIdade;
         // $registerPatient->procedencia = $request->procedencia;
-
         // //Image Upload
         // if ($request->hasFile('image') && $request->file('image')->isValid()) {
         //     $requestImage = $request->image;
@@ -47,26 +48,18 @@ class PatientsController extends Controller
         // };
 
         // $registerPatient->save();
-
         // return redirect('/dashboard')->with('msg', 'Registro inserido com sucesso!');
     }
 
-    public function index()
+    public function index(Request $filter)
     {
-
         try {
-            $patients = $this->patientsServices->index();
-            dd($patients);
+            $patients = $this->patientsServices->index($filter);
         } catch (Exception $e) {
             return $e;
         }
 
         return response()->json($patients, 200);
-        // $animalsDetails = Patient::findOrFail($id);
-
-        // $cardOwner = User::where('id', $animalsDetails->user_id)->first()->toArray();
-
-        // return view('fichaTecnica.show', ['animalsDetails' => $animalsDetails, 'cardOwner' => $cardOwner]);
     }
 
     public function show(string $id)
@@ -77,6 +70,12 @@ class PatientsController extends Controller
             return $e;
         }
         return response()->json($patient, 200);
+
+        // $animalsDetails = Patient::findOrFail($id);
+
+        // $cardOwner = User::where('id', $animalsDetails->user_id)->first()->toArray();
+
+        // return view('fichaTecnica.show', ['animalsDetails' => $animalsDetails, 'cardOwner' => $cardOwner]);
     }
 
     public function delete($id)

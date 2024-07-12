@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\PatientsRepositoryInterface;
-use Illuminate\Support\ServiceProvider;
-use PatientsRepository;
+use App\Repositories\PatientsRepository;
 use App\Services\PatientsServices;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
             PatientsRepositoryInterface::class,
             PatientsRepository::class
         );
+
+        $this->app->bind(PatientsServices::class, function ($app) {
+            return new PatientsServices($app->make(PatientsRepositoryInterface::class));
+        });
     }
 
     /**

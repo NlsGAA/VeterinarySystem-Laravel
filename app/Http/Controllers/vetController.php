@@ -36,6 +36,13 @@ class vetController extends Controller
         return view('fichaTecnica/ficha');
     }
 
+    public function edit($id)
+    {
+        $registros = Patient::findOrFail($id);
+
+        return view ('fichaTecnica/edit', compact('registros'));
+    }
+
 
     public function loginUser()
     {
@@ -70,9 +77,24 @@ class vetController extends Controller
     {
 
         $user = auth()->user();
+        $registros = $user->patients;
 
-        $registros = $user->ficha_tecs;
+        return view('fichaTecnica.dashboard', compact('registros'));
+    }
 
-        return view('fichaTecnica.dashboard', ['registros' => $registros]);
+    public function show($id)
+    {
+
+        $animalsDetails = Patient::findOrFail($id);
+
+        $cardOwner = User::where('id', $animalsDetails->user_id)->first()->toArray();
+
+        return view('fichaTecnica.show', ['animalsDetails' => $animalsDetails, 'cardOwner' => $cardOwner]);
+    }
+    public function destroy($id)
+    {
+        Patient::findOrFail($id)->delete();
+
+        return redirect('/dashboard')->with('msg', 'Registro excluído com sucesso!');
     }
 }

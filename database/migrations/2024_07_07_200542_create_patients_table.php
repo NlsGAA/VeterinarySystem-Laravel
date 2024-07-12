@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ficha_tecs', function (Blueprint $table) {
+        Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
             $table->string('raca');
@@ -22,6 +22,9 @@ return new class extends Migration
             $table->integer('idade');
             $table->boolean('tipoIdade');
             $table->string('procedencia');
+            $table->string('motivoCadastro');
+            $table->foreignId('user_id')->constrained();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ficha_tecs');
+        Schema::dropIfExists('patients');
     }
 };

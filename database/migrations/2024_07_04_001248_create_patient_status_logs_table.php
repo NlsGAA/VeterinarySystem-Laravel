@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('ficha_tecs', function (Blueprint $table) {
-            $table->string('image')->nullable();
+        Schema::create('patient_status_logs', function (Blueprint $table) {
+            $table->id();
+            $table->string('status');
+            $table->string('patient_id');
+            $table->string('user_id');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('ficha_tecs', function (Blueprint $table) {
-            $table->dropColumn('image');
-        });
+        Schema::dropIfExists('patient_status_logs');
     }
 };

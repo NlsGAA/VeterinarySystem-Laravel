@@ -11,7 +11,7 @@ Route::get('/fichaTecnica/edit/{id}', [vetController::class, 'edit'])->name('pat
 
 Route::get('/cadastro', [vetController::class, 'cadastroUser']);
 
-Route::post('/signUpPage', [vetController::class, 'registerUser']);
+Route::get('/signUpPage', [vetController::class, 'registerUser']);
 
 Route::get('/dashboard', [vetController::class, 'dashboard'])->middleware('auth')->name('patient.dashboard');
 

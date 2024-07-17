@@ -25,8 +25,10 @@ class PatientsController extends Controller
         } catch (Exception $e) {
             return $e;
         }
-        return response()->json($patient, 200);
-
+        return response()->json([
+            'pacientes' => $patient,
+            'status' => 200
+        ]);
         
         // $registerPatient = new Patient();
         // $registerPatient->nome = $request->nome;
@@ -59,7 +61,10 @@ class PatientsController extends Controller
             return $e;
         }
 
-        return response()->json($patients, 200);
+        return response()->json([
+            'pacientes' => $patients,
+            'status' => 200
+        ]);
     }
 
     public function show(string $id)
@@ -69,7 +74,10 @@ class PatientsController extends Controller
         } catch (Exception $e) {
             return $e;
         }
-        return response()->json($patient, 200);
+        return response()->json([
+            'pacientes' => $patient,
+            'status' => 200
+        ]);
 
         // $animalsDetails = Patient::findOrFail($id);
 
@@ -86,7 +94,10 @@ class PatientsController extends Controller
             throw new Exception($e);
         }
 
-        return response()->json($patient, 200);
+        return response()->json([
+            'pacientes' => $patient,
+            'status' => 200
+        ]);
         // Patient::findOrFail($id)->delete();
 
         // return redirect('/dashboard')->with('msg', 'Registro excluído com sucesso!');
@@ -115,7 +126,10 @@ class PatientsController extends Controller
         } catch (Exception $e) {
             throw new Exception("Não foi possível atualizar cadastro" . $e);
         }
-        return response()->json($patient, 200);
+        return response()->json([
+            'pacientes' => $patient,
+            'status' => 200
+        ]);
         // $data = $request->all();
 
         // if ($request->hasFile('image') && $request->file('image')->isValid()) {

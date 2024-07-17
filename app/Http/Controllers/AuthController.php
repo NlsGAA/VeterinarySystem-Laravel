@@ -2,19 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Services\UserServices;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\AuthRequest;
 
 //4|IpTDLDusunMszovdIk6tXvqBo2raSG5FCfn2QKIp69c394eb
 class AuthController extends Controller
 {
-    public function login(Request $request)
-    {
-        if(Auth::attempt($request->only('email', 'password')))
-        {
-            return response()->json(['token' => $request->user()->createToken('invoice')->plainTextToken]);
-        }
-        return response()->json('Not authorized', 403);
+    public function __construct(
+        protected UserServices $userServices
+    ){
     }
+    public function register(AuthRequest $request): JsonResponse
+    {
+        try {
+            $user = $this->userServices->create($request);
+        } catch (Exception $e) {
+            throw new Exception('Não foi possível cadastrar o usuário ' . $e);
+        }
+
+        return response()->json([
+            'message'   => 'Sucesso',
+            'user'      => $user,
+            'status'    => 200
+        ]);
+    }
+    public function login(Request $request): JsonResponse
+    {
+        try {
+            $token = $this->userServices->findOne($request);
+        } catch (Exception $e) {
+            throw new Exception('Usuário inválido ' . $e);
+        }
+
+        return response()->json([
+            'message'   => 'success',
+            'data'      => [
+                'token' => $token,
+                'token_type' => 'Bearer'
+            ],
+            'status' => 200,
+        ]);
+    }
+
 }

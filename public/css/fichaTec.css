@@ -15,6 +15,6 @@ html {
     width: fit-content;
 }
 
-#form-body {
-    margin-right: -70px;
+.form-body {
+    width: fit-content;
 }

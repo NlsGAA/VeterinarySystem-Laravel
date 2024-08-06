@@ -28,7 +28,7 @@ class AuthController extends Controller
             'message'   => 'Sucesso',
             'user'      => $user,
             'status'    => 200
-        ]);
+        ], 200);
     }
     public function login(Request $request): JsonResponse
     {
@@ -45,7 +45,7 @@ class AuthController extends Controller
                 'token_type' => 'Bearer'
             ],
             'status' => 200,
-        ]);
+        ], 200);
     }
 
 }

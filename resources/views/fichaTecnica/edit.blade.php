@@ -9,7 +9,7 @@
     <div id="form-body">
         <form method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            <input type="hidden" value="{{ $registros->id }}" name="id">
             <div class="row mb-1">
                 <div class="col-md-5">
                     <label for="image" class="form-label">Imagem:</label>
@@ -116,58 +116,16 @@
     </form>
 </div>
 
-
-
-        {{-- <div id="form-body">
-            <div class="form-first-itens">
-                <label>Nome:</br>
-                    <input type="text" name="nome" placeholder="Nome" value="{{ $registros->nome }}">
-                </label></br>
-                <label>Raça:</br>
-                    <input type="text" name="raca" placeholder="Raça" value="{{ $registros->raca }}">
-                </label>
-            </div>
-            <label>Espécie:</br>
-                <input type="text" name="especie" placeholder="Espécie" value="{{ $registros->especie }}">
-            </label>
-            <div class="form-second-itens">
-                <label>Peso:</br>
-                    <input type="text" name="peso" placeholder="Peso" value="{{ $registros->peso }}">
-                    <select name="tipoPeso">
-                        <option value="0">Kilos</option>
-                        <option value="1">Gramas</option>
-                    </select>
-                </label>
-            </div>
-            <label>Coloração:</br>
-                <input type="text" name="coloracao" placeholder="Coloração" value="{{ $registros->coloracao }}">
-            </label>
-            <div class="form-second-itens">
-                <label>Idade:</br>
-                    <input type="number" name="idade" placeholder="Idade" value="{{ $registros->idade }}">
-                    <select name="tipoIdade">
-                        <option value="0">Anos</option>
-                        <option value="1">Meses</option>
-                    </select>
-                </label>
-            </div>
-            <label>Procedência:</br>
-                <input type="text" name="procedencia" placeholder="Procedência" value="{{ $registros->procedencia }}">
-            </label></br>
-            <input type="submit" value="Salvar">
-        </div> --}}
-    </form>
-
     <script>
         $(document).ready(function() {
             $('form').on('submit', function(e) {
                 e.preventDefault();
     
                 var formData = new FormData(this);
-                var token = "{{ auth()->user()->createToken('TokenName')->plainTextToken }}";
+                var token = "{{ auth()->user()->createToken('auth_token')->plainTextToken }}";
     
                 $.ajax({
-                    url: "{{ route('patient.update', $registros->id) }}",
+                    url: "{{ route('patient.update') }}",
                     type: 'POST',
                     data: formData,
                     processData: false,

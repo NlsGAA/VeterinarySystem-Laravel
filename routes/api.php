@@ -18,4 +18,8 @@ Route::middleware(['auth:sanctum', 'auth'])
         Route::prefix('doctors')->group(function(){
             Route::get('/', 'App\Http\Controllers\UserController@index')->name('doctor.all');
         });
+
+        Route::prefix('hospitalization')->group(function(){
+            Route::get('/', 'App\Http\Controllers\HospitalizedController@index')->name('hospitalized.all');
+        });
 });

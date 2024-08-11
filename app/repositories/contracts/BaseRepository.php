@@ -14,9 +14,9 @@ interface BaseRepository
 
     public function findOne(string $id): Model;
 
-    public function create(CreatePatientDTO $createPatientDTO): stdClass;
+    // public function create(CreatePatientDTO $createPatientDTO): stdClass;
 
-    public function update(UpdatePatientDTO $updatePatientDTO): stdClass|null;
+    // public function update(UpdatePatientDTO $updatePatientDTO): stdClass|null;
 
     public function delete(string $id): void;
 }

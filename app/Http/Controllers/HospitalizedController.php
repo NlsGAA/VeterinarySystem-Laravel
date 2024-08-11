@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\CreatePatientDTO;
-use App\DTO\UpdatePatientDTO;
+use App\DTO\Hospitalized\CreateHospitalizedDTO;
 use App\Http\Controllers\Controller;
-use App\Services\PatientsServices;
+use App\Services\HospitalizedServices;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PatientsController extends Controller
+class HospitalizedController extends Controller
 {
     public function __construct(
-        protected PatientsServices $patientsServices
+        protected HospitalizedServices $hospitalizedServices
     ){}
 
     public function store(Request $request)
     {
         try {
             $logged_user_id = Auth::id();
-            $patient = $this->patientsServices->create(new CreatePatientDTO($request, $logged_user_id));
+            $patient = $this->hospitalizedServices->create(new CreateHospitalizedDTO($request, $logged_user_id));
         } catch (Exception $e) {
             return $e;
         }
@@ -35,13 +34,14 @@ class PatientsController extends Controller
     public function index(Request $filter)
     {
         try {
-            $patients = $this->patientsServices->index($filter);
+            $patients = $this->hospitalizedServices->index($filter);
         } catch (Exception $e) {
             return $e;
         }
 
         return response()->json([
             'pacientes' => $patients,
+            'message' => 'Pacientes recuperados com sucesso!',
             'status' => 200
         ], 200);
     }
@@ -49,7 +49,7 @@ class PatientsController extends Controller
     public function show(string $id)
     {
         try {
-            $patient = $this->patientsServices->findOne($id);
+            $patient = $this->hospitalizedServices->findOne($id);
         } catch (Exception $e) {
             return $e;
         }
@@ -63,7 +63,7 @@ class PatientsController extends Controller
     public function destroy(Request $id)
     {
         try {
-            $patient = $this->patientsServices->delete($id);
+            $patient = $this->hospitalizedServices->delete($id);
         } catch (Exception $e) {
             throw new Exception($e);
         }
@@ -78,7 +78,8 @@ class PatientsController extends Controller
     {
 
         try {
-            $patient = $this->patientsServices->update(new UpdatePatientDTO($request));
+            $logged_user_id = Auth::id();
+            $patient = $this->hospitalizedServices->update(new CreateHospitalizedDTO($request, $logged_user_id));
         } catch (Exception $e) {
             throw new Exception("Não foi possível atualizar cadastro" . $e);
         }

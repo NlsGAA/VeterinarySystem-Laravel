@@ -97,4 +97,9 @@ class vetController extends Controller
 
         return redirect('/dashboard')->with('msg', 'Registro excluído com sucesso!');
     }
+
+    public function internamentos()
+    {
+        return view('hospitalization.hospitalized');
+    }
 }

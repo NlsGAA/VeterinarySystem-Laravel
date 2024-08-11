@@ -15,6 +15,8 @@ Route::get('/signUpPage', [vetController::class, 'registerUser']);
 
 Route::get('/dashboard', [vetController::class, 'dashboard'])->middleware('auth')->name('patient.dashboard');
 
+Route::get('/internamentos', [vetController::class, 'internamentos'])->name('patient_hospitalized');
+
 // Route::middleware([
 //     'auth:sanctum',
 //     config('jetstream.auth_session'),

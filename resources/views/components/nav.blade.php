@@ -36,10 +36,11 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="/fichaTecnica">Ficha Técnica</a></li>
-                <li><a class="dropdown-item" href="#">Listagem de medicamento</a></li>
-                <li><a class="dropdown-item" href="#">Dosagem de medicação</a></li>
+                <li><a class="dropdown-item" href="/internamentos">Pacientes Internados</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Telefone de hospitais</a></li>
+                <li><a class="dropdown-item" href="#">Listagem de medicamento</a></li>
+                <li><a class="dropdown-item" href="#">Dosagem de medicação</a></li>
               </ul>
             </li>
             <li class="nav-item">

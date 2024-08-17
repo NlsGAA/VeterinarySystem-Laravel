@@ -5,15 +5,17 @@ namespace App\Services;
 use App\Models\Patient;
 use App\Repositories\Hospitalized\HospitalizedRepository;
 use Illuminate\Http\Request;
-use App\DTO\Hospitalized\CreateHospitalizedDTO;
+use App\DTO\PatientDTO;
 use Carbon\Carbon;
 use stdClass;
 
 class HospitalizedServices
 {
     public function __construct(
-        private HospitalizedRepository $hospitalizedRepository
+        private HospitalizedRepository $hospitalizedRepository,
+        private Carbon $carbon
     ){
+        $this->carbon->setLocale('pt-BR');
     }
 
     public function index(Request $filter)
@@ -21,40 +23,26 @@ class HospitalizedServices
         $data = [];
         $patients_hospitalized = $this->hospitalizedRepository->getAll($filter);
 
-        foreach($patients_hospitalized as $key_data => $value_data){
-            $data[$key_data]['days_hospitalized'] = $this->diffForHumans($value_data['created_at']);
-            $data[$key_data]['entry_date'] = $this->dateFormat($value_data['created_at']);
-            $data[$key_data]['patient_data'] = $value_data;
+        foreach($patients_hospitalized as $data_key => $patient_data){
+            $date = $this->carbon->createFromDate($patient_data['created_at']);
+            $data[$data_key]['days_hospitalized'] = $date->diffForHumans();
+            $data[$data_key]['entry_date'] = $date->format('d/m/Y H:i:s');
+            $data[$data_key]['patient_data'] = $patient_data;
         }
 
         return $data;
     }
 
-    private function dateFormat($date)
+    public function create(PatientDTO $patientDTO)
     {
-        Carbon::setLocale('pt-BR');
-        $date = Carbon::createFromDate($date);
-        return $date->format('d/m/Y H:i:s');
-    }
-
-    private function diffForHumans($date)
-    {
-        Carbon::setLocale('pt-BR');
-        $date = Carbon::createFromDate($date);
-        return $date->diffForHumans();
-    }
-
-    public function create(CreateHospitalizedDTO $createHospitalizedDTO)
-    {
-        $patient = $this->hospitalizedRepository->create($createHospitalizedDTO);
+        $patient = $this->hospitalizedRepository->create($patientDTO);
         
-
         return $patient;
     }
 
-    public function update(CreateHospitalizedDTO $createHospitalizedDTO): stdClass|null
+    public function update(PatientDTO $patientDTO): stdClass|null
     {
-        return $this->hospitalizedRepository->update($createHospitalizedDTO);
+        return $this->hospitalizedRepository->update($patientDTO);
     }
 
     public function findOne(string $id): Patient

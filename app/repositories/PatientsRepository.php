@@ -2,8 +2,7 @@
 
 namespace App\Repositories;
 
-use App\DTO\CreatePatientDTO;
-use App\DTO\UpdatePatientDTO;
+use App\DTO\PatientDTO;
 use App\Models\HospitalizedPatients;
 use App\Models\Patient;
 use App\Repositories\Contracts\PatientsRepositoryInterface;
@@ -39,52 +38,48 @@ class PatientsRepository implements PatientsRepositoryInterface
         return $this->patient->findOrFail($id);
     }
 
-    public function create(CreatePatientDTO $createPatientDTO): stdClass
+    public function create(PatientDTO $patientDTO): stdClass
     {
         $patient =  $this->patient->create([
-            'nome'	 => $createPatientDTO->nome,
-            'raca'	 => $createPatientDTO->raca,
-            'especie'	 => $createPatientDTO->especie,
-            'peso'	 => $createPatientDTO->peso,
-            'tipoPeso'	 => $createPatientDTO->tipoPeso,
-            'coloracao'	 => $createPatientDTO->coloracao,
-            'idade'	 => $createPatientDTO->idade,
-            'tipoIdade'	 => $createPatientDTO->tipoIdade,
-            'procedencia'	 => $createPatientDTO->procedencia,
-            'motivoCadastro'	 => $createPatientDTO->motivoCadastro,
-            'user_id'	 => $createPatientDTO->user_id,
-            'image' => $createPatientDTO->image,
+            'nome'              => $patientDTO->nome,
+            'raca'	            => $patientDTO->raca,
+            'especie'	        => $patientDTO->especie,
+            'peso'	            => $patientDTO->peso,
+            'tipoPeso'	        => $patientDTO->tipoPeso,
+            'coloracao'	        => $patientDTO->coloracao,
+            'idade'	            => $patientDTO->idade,
+            'tipoIdade'	        => $patientDTO->tipoIdade,
+            'procedencia'	    => $patientDTO->procedencia,
+            'motivoCadastro'	=> $patientDTO->motivoCadastro,
+            'user_id'	        => $patientDTO->user_id,
+            'image'             => $patientDTO->image,
         ]);
 
         return (object) $patient->toArray();
     }
 
-    public function update(UpdatePatientDTO $updatePatientDTO): stdClass|null
+    public function update(PatientDTO $patientDTO): stdClass|null
     {
-        $patient = $this->patient->find($updatePatientDTO->id);
+        $patient = $this->findOne($patientDTO->patient_id)->update([
+            'nome'              => $patientDTO->nome,
+            'raca'	            => $patientDTO->raca,
+            'especie'	        => $patientDTO->especie,
+            'peso'	            => $patientDTO->peso,
+            'tipoPeso'	        => $patientDTO->tipoPeso,
+            'coloracao'	        => $patientDTO->coloracao,
+            'idade'	            => $patientDTO->idade,
+            'tipoIdade'	        => $patientDTO->tipoIdade,
+            'procedencia'	    => $patientDTO->procedencia,
+            'motivoCadastro'	=> $patientDTO->motivoCadastro,
+            'image'             => $patientDTO->image,
+            'updated_by'        => $patientDTO->user_id,
+        ]);
 
-        if(!$patient) return null;
-        
-        $patient->update(
-            (array) $updatePatientDTO
-        );
-
-        return (object) $patient->toArray();
+        return (object) $patient;
     }
 
     public function delete(string $id): void
     {
         $this->patient->find($id)->delete();
-    }
-
-    public function hospitalizedCreate(CreatePatientDTO $createPatientDTO, int $patient_id){
-        $hospitalizedPatient = $this->hospitalizedPatients->create([
-            'patient_id'    => $patient_id,
-            'doctor_id'     => $createPatientDTO->drResponsavel,
-            'situation_id'  => $createPatientDTO->situacaoInternacao,
-            'updated_by'    => $createPatientDTO->user_id
-        ]);
-
-        return (object) $hospitalizedPatient->toArray();
     }
 }

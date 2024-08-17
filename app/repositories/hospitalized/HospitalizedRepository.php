@@ -3,9 +3,11 @@
 namespace App\Repositories\Hospitalized;
 
 use App\DTO\Hospitalized\CreateHospitalizedDTO;
+use App\DTO\PatientDTO;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HospitalizedPatients;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use stdClass;
 
 class HospitalizedRepository implements HospitalizedRepositoryInterface
@@ -33,13 +35,21 @@ class HospitalizedRepository implements HospitalizedRepositoryInterface
         return $this->hospitalizedPatients->findOrFail($id);
     }
 
-    public function create(CreateHospitalizedDTO $createHospitalizedDTO): stdClass
+    public function findByPatientId(string $id){
+        $patient = DB::table('hospitalization')
+                    ->where('patient_id', $id)
+                    ->whereNull('deleted_at')
+                    ->first();
+        return $patient;
+    }
+
+    public function create(PatientDTO $patientHospitalizedDTO, $patient_id = null): stdClass
     {
         $hospitalizedPatient = $this->hospitalizedPatients->create([
-            'patient_id'    => $createHospitalizedDTO->patient_id,
-            'doctor_id'     => $createHospitalizedDTO->DoctorId,
-            'situation_id'  => $createHospitalizedDTO->SituationId,
-            'updated_by'    => $createHospitalizedDTO->user_id
+            'patient_id'    => $patientHospitalizedDTO->patient_id ?? $patient_id,
+            'doctor_id'     => $patientHospitalizedDTO->doctorId,
+            'situation_id'  => $patientHospitalizedDTO->situationId,
+            'updated_by'    => $patientHospitalizedDTO->user_id
         ]);
 
         return (object) $hospitalizedPatient->toArray();

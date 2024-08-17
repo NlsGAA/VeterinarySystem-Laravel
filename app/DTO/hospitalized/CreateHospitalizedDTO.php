@@ -9,14 +9,14 @@ class CreateHospitalizedDTO
     public $user_id;
     public $patient_id;
     public int $SituationId;
-    public int $DoctorId;
+    public int $doctorId;
 
     public function __construct(Request $request, $logged_user_id)
     {
         $this->user_id              = $logged_user_id;  
         $this->patient_id           = $request->patient_id;
         $this->SituationId          = $request->situacaoInternacao;
-        $this->DoctorId             = $request->drResponsavel;
+        $this->doctorId             = $request->drResponsavel;
     }
 
     public function getUserId()
@@ -36,6 +36,6 @@ class CreateHospitalizedDTO
 
     public function getDoctorId()
     {
-        return $this->DoctorId;
+        return $this->doctorId;
     }
 }

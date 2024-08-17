@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\CreatePatientDTO;
-use App\DTO\UpdatePatientDTO;
+use App\DTO\PatientDTO;
 use App\Http\Controllers\Controller;
 use App\Services\PatientsServices;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PatientsController extends Controller
 {
@@ -20,14 +18,14 @@ class PatientsController extends Controller
     public function store(Request $request)
     {
         try {
-            $logged_user_id = Auth::id();
-            $patient = $this->patientsServices->create(new CreatePatientDTO($request, $logged_user_id));
+            $patient = $this->patientsServices->create(new PatientDTO($request));
         } catch (Exception $e) {
             return $e;
         }
 
         return response()->json([
             'pacientes' => $patient,
+            'message' => 'Paciente cadastrado com sucesso!',
             'status' => 200
         ], 200);
     }
@@ -60,7 +58,7 @@ class PatientsController extends Controller
         ], 200);
     }
 
-    public function destroy(Request $id)
+    public function destroy($id)
     {
         try {
             $patient = $this->patientsServices->delete($id);
@@ -76,9 +74,8 @@ class PatientsController extends Controller
 
     public function update(Request $request): JsonResponse
     {
-
         try {
-            $patient = $this->patientsServices->update(new UpdatePatientDTO($request));
+            $patient = $this->patientsServices->update(new PatientDTO($request));
         } catch (Exception $e) {
             throw new Exception("Não foi possível atualizar cadastro" . $e);
         }

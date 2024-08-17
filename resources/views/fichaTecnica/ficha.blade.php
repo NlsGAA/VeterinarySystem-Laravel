@@ -89,8 +89,8 @@
                     <div style="display: none" id="internamentoSituacao" >
                         <div class="row mb-2">
                             <div class="col-md-10">
-                                <label for="motivoCadastro" class="form-label">Situação:</label>
-                                <select class="form-select" name="situacaoInternacao" id="motivoCadastro" required>
+                                <label for="situacaoInternacao" class="form-label">Situação:</label>
+                                <select class="form-select" name="situacaoInternacao" id="situacaoInternacao" required>
                                     <option value="1" selected>Urgência</option>
                                     <option value="2">Clínica</option>
                                     <option value="3">Cirúgico</option>
@@ -103,9 +103,7 @@
                         <div class="row mb-2">
                             <div class="col-md-10">
                                 <label>Dr(a) responsável:</label>
-                                <select class="form-select" name="drResponsavel" id="drResponsavel" required>
-                                    {{-- <option value="1" selected>---------</option> --}}
-                                </select>
+                                <select class="form-select" name="drResponsavel" id="drResponsavel" required></select>
                             </div>
                         </div>
                     </div>

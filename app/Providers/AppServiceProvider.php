@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\PatientsRepositoryInterface;
+use App\Repositories\Hospitalized\HospitalizedRepository;
+use App\Repositories\Hospitalized\HospitalizedRepositoryInterface;
 use App\Repositories\PatientsRepository;
 use App\Services\PatientsServices;
 use Illuminate\Support\ServiceProvider;
@@ -19,8 +21,13 @@ class AppServiceProvider extends ServiceProvider
             PatientsRepository::class
         );
 
+        $this->app->bind(
+            HospitalizedRepositoryInterface::class,
+            HospitalizedRepository::class
+        );
+
         $this->app->bind(PatientsServices::class, function ($app) {
-            return new PatientsServices($app->make(PatientsRepositoryInterface::class));
+            return new PatientsServices($app->make(PatientsRepositoryInterface::class), $app->make(HospitalizedRepositoryInterface::class));
         });
     }
 

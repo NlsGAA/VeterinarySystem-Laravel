@@ -11,7 +11,7 @@ Route::middleware(['auth:sanctum', 'auth'])
         Route::prefix('patients')->group(function(){
             Route::get('/', 'App\Http\Controllers\PatientsController@index')->name('patient.all');
             Route::post('/update', 'App\Http\Controllers\PatientsController@update')->name('patient.update');//->middleware('ability:patient-update');
-            Route::get('/delete', 'App\Http\Controllers\PatientsController@delete')->name('patient.destroy');//->middleware('ability:patient-delete');
+            Route::get('/delete/{id}', 'App\Http\Controllers\PatientsController@destroy')->name('patient.destroy');//->middleware('ability:patient-delete');
             Route::post('/create', 'App\Http\Controllers\PatientsController@store')->name('patient.create');//->middleware('ability: patient-create');
         });
 

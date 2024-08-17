@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\Hospitalized\CreateHospitalizedDTO;
+use App\DTO\PatientDTO;
 use App\Http\Controllers\Controller;
 use App\Services\HospitalizedServices;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class HospitalizedController extends Controller
 {
@@ -19,15 +18,14 @@ class HospitalizedController extends Controller
     public function store(Request $request)
     {
         try {
-            $logged_user_id = Auth::id();
-            $patient = $this->hospitalizedServices->create(new CreateHospitalizedDTO($request, $logged_user_id));
+            $patient = $this->hospitalizedServices->create(new PatientDTO($request));
         } catch (Exception $e) {
             return $e;
         }
 
         return response()->json([
             'pacientes' => $patient,
-            'status' => 200
+            'message' => 'Paciente cadastrado com sucesso!'
         ], 200);
     }
 
@@ -36,13 +34,12 @@ class HospitalizedController extends Controller
         try {
             $patients = $this->hospitalizedServices->index($filter);
         } catch (Exception $e) {
-            return $e;
+            return 'Não foi possível recuperar os pacientes! ' . $e;
         }
 
         return response()->json([
             'pacientes' => $patients,
             'message' => 'Pacientes recuperados com sucesso!',
-            'status' => 200
         ], 200);
     }
 
@@ -78,8 +75,7 @@ class HospitalizedController extends Controller
     {
 
         try {
-            $logged_user_id = Auth::id();
-            $patient = $this->hospitalizedServices->update(new CreateHospitalizedDTO($request, $logged_user_id));
+            $patient = $this->hospitalizedServices->update(new PatientDTO($request));
         } catch (Exception $e) {
             throw new Exception("Não foi possível atualizar cadastro" . $e);
         }

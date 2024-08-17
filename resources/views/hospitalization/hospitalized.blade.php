@@ -27,15 +27,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody id="patient_information">
-                    {{-- <tr id="patient_information"> --}}
-                        {{-- <td id="patientName"></td>
-                        <td id="doctorName"></td>
-                        <td id="hospitalizationStatus"></td>
-                        <td id="entryDate"></td>
-                        <td id="daysHospitalized"></td> --}}
-                    {{-- </tr> --}}
-                </tbody>
+                <tbody id="patient_information"></tbody>
             </table>
         </div>
     </div>
@@ -69,7 +61,7 @@
                 });
             },
             error: function(response) {
-                alert('Erro ao criar paciente.');
+                alert('Erro recuperar pacientes');
             }
         });
     });

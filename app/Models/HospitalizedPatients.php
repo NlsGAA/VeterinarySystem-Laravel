@@ -31,4 +31,8 @@ class HospitalizedPatients extends Model
         'updated_at' => 'datetime:d-m-Y',
         'deleted_at' => 'datetime:d-m-Y'
     ];
+
+    public function hospitalizedPatients(){
+        return $this->hasMany(HospitalizedPatients::class, 'patient_id', 'id');
+    }
 }

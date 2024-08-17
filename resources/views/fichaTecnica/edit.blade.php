@@ -79,31 +79,55 @@
 
             <div class="col-md-10">
                 <label for="motivoCadastro" class="form-label">Motivo do cadastro:</label>
-                <select class="form-select" name="motivoCadastro" id="motivoCadastro" required>
+                <select class="form-select" name="motivoCadastro" id="motivoCadastro" onchange="internamento()" required>
                     @switch($registros->motivoCadastro)
-                    @case(1)
-                        <option value="{{$registros->motivoCastro}}" selected>
-                        <p>Serviços gerais</p>
-                        </option>
-                        <option value="2">Internamento</option>
-                        <option value="3">Consulta</option>
-                        @break
-                    @case(2)
-                        <option value="{{$registros->motivoCastro}}" selected>
-                            Internamento
-                        </option>
-                        <option value="1">Serviços gerais</option>
-                        <option value="3">Consulta</option>
-                        @break
-                    @case(3)
-                        <option value="{{$registros->motivoCastro}}" selected>
-                            Consulta
-                        </option>
-                        <option value="1">Serviços gerais</option>
-                        <option value="2">Internamento</option>
-                        @break
+                        @case(1)
+                            <option value="{{$registros->motivoCadastro}}" selected>
+                            <p>Serviços gerais</p>
+                            </option>
+                            <option value="2">Internamento</option>
+                            <option value="3">Consulta</option>
+                            @break
+                        @case(2)
+                            <option value="{{$registros->motivoCadastro}}" selected>
+                                Internamento
+                            </option>
+                            <option value="1">Serviços gerais</option>
+                            <option value="3">Consulta</option>
+                            @break
+                        @case(3)
+                            <option value="{{$registros->motivoCadastro}}" selected>
+                                Consulta
+                            </option>
+                            <option value="1">Serviços gerais</option>
+                            <option value="2">Internamento</option>
+                            @break
                     @endswitch
                 </select>
+            </div>
+
+            <div class="row mb-2">
+                <div @if ($registros->motivoCadastro != 2) style="display: none" @endif id="internamentoSituacao" >
+                    <div class="row mb-2">
+                        <div class="col-md-10">
+                            <label for="situacaoInternacao" class="form-label">Situação:</label>
+                            <select class="form-select" name="situacaoInternacao" id="situacaoInternacao" required>
+                                <option value="1" selected>Urgência</option>
+                                <option value="2">Clínica</option>
+                                <option value="3">Cirúgico</option>
+                                <option value="4">Terapêutico</option>
+                                <option value="5">Observação</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-10">
+                            <label>Dr(a) responsável:</label>
+                            <select class="form-select" name="drResponsavel" id="drResponsavel" required></select>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="row mb-1">
@@ -116,33 +140,72 @@
     </form>
 </div>
 
-    <script>
-        $(document).ready(function() {
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-    
-                var formData = new FormData(this);
-                var token = "{{ auth()->user()->createToken('auth_token')->plainTextToken }}";
-    
-                $.ajax({
-                    url: "{{ route('patient.update') }}",
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Authorization': 'Bearer ' + token
-                    },
-                    success: function(response) {
-                        window.location.href = "{{ route('patient.dashboard') }}";
-                    },
-                    error: function(response) {
-                        alert('Erro ao editar paciente.');
-                    }
-                });
+<script>
+    function internamento(){
+        if($('#motivoCadastro').val() == 2){
+            $('#internamentoSituacao').show();
+        }else{
+            $('#internamentoSituacao').hide();
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('form').on('submit', function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            var token = "{{ auth()->user()->createToken('auth_token')->plainTextToken }}";
+
+            $.ajax({
+                url: "{{ route('patient.update') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function(response) {
+                    window.location.href = "{{ route('patient.dashboard') }}";
+                },
+                error: function(response) {
+                    alert('Erro ao editar paciente.');
+                }
             });
         });
-    </script>
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        var token = "{{ auth()->user()->createToken('TokenName')->plainTextToken }}";
+
+        $.ajax({
+            url: "{{ route('doctor.all') }}",
+            type: 'GET',
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + token
+            },
+            success: function(response) {
+                const doctors = response.Doutores;
+
+                doctors.forEach(doctor => {
+                    $('#drResponsavel').prepend(
+                        '<option value="'+doctor.id+'">'+doctor.name+'</option>'
+                    );
+                });
+            },
+            error: function(response) {
+                alert('Erro ao resgatar doutores.');
+            }
+        });
+    });
+</script>
 
 @endsection

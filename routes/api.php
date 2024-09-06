@@ -15,6 +15,12 @@ Route::middleware(['auth:sanctum', 'auth'])
             Route::post('/create', 'App\Http\Controllers\PatientsController@store')->name('patient.create');//->middleware('ability: patient-create');
         });
 
+        Route::prefix('owners')->group(function(){
+            Route::get('/', 'App\Http\Controllers\OwnersController@index')->name('owners.all');
+            Route::post('/update', 'App\Http\Controllers\OwnersController@update')->name('owners.update');
+            Route::post('/delete/{id}', 'App\Http\Controllers\OwnersController@delete')->name('owners.delete');
+        });
+
         Route::prefix('doctors')->group(function(){
             Route::get('/', 'App\Http\Controllers\UserController@index')->name('doctor.all');
         });

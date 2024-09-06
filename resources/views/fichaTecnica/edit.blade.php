@@ -9,7 +9,7 @@
     <div id="form-body">
         <form method="POST" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" value="{{ $registros->id }}" name="id">
+            <input type="hidden" value="{{ $registros->patient_id }}" name="id">
             <div class="row mb-1">
                 <div class="col-md-5">
                     <label for="image" class="form-label">Imagem:</label>

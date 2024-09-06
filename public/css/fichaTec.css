@@ -5,15 +5,11 @@ html {
     background-color: #e9f5f7; /* Cor de fundo suave */
 }
 
-#background-form {
-    background-color: #ffffff; /* Fundo branco */
-    padding: 20px;
+/* #background-form {
     align-items: center;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    margin-top: 1%; /* Ajuste conforme necessário */
     width: fit-content;
-}
+} */
 
 .form-body {
     width: fit-content;

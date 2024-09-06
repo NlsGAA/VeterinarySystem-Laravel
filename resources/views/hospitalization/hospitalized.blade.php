@@ -25,6 +25,9 @@
                         <th>
                             Dias internados:
                         </th>
+                        <th>
+                            Ações:
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="patient_information"></tbody>
@@ -56,6 +59,7 @@
                             '<td>' + patient.patient_data.name_situation + '</td>' +
                             '<td>' + patient.entry_date + '</td>' +
                             '<td>' + patient.days_hospitalized + '</td>' +
+                            '<td>' + '<button class="btn btn-info">Dar alta</button>' + '</td>' +
                         '</tr>'
                     );
                 });

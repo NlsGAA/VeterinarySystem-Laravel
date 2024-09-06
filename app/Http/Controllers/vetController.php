@@ -102,4 +102,9 @@ class vetController extends Controller
     {
         return view('hospitalization.hospitalized');
     }
+
+    public function ownersCreate()
+    {
+        return view('owners.view.form.owners');
+    }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class PatientDTO
 {
     public $user_id;
-    public ?string $patient_id = null;
+    public ?string $id = null;
     public string $nome;
     public string $raca;
     public string $especie;
@@ -26,7 +26,7 @@ class PatientDTO
     public function __construct(Request $request)
     {
         $this->user_id              = auth()->user()->id;
-        $this->patient_id           = $request->id ?? null;
+        $this->id                   = $request->id ?? null;
         $this->nome                 = $request->nome;
         $this->raca                 = $request->raca;
         $this->especie              = $request->especie;
@@ -37,8 +37,6 @@ class PatientDTO
         $this->tipoIdade            = $request->tipoIdade;
         $this->procedencia          = $request->procedencia;
         $this->motivoCadastro       = $request->motivoCadastro;
-        $this->situationId          = $request->situacaoInternacao;
-        $this->doctorId             = $request->drResponsavel;
         
         if(isset($request->image) && !empty($request->image)){
             if ($request->hasFile('image') && $request->file('image')->isValid()) {

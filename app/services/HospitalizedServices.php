@@ -2,20 +2,24 @@
 
 namespace App\Services;
 
-use App\Models\Patient;
-use App\Repositories\Hospitalized\HospitalizedRepository;
+use App\DTO\Hospitalized\CreateHospitalizedDTO;
 use Illuminate\Http\Request;
-use App\DTO\PatientDTO;
+use App\Repositories\Hospitalized\HospitalizedRepositoryInterface;
 use Carbon\Carbon;
 use stdClass;
 
 class HospitalizedServices
 {
     public function __construct(
-        private HospitalizedRepository $hospitalizedRepository,
+        private HospitalizedRepositoryInterface $hospitalizedRepository,
         private Carbon $carbon
     ){
         $this->carbon->setLocale('pt-BR');
+    }
+
+    public function findOne(string $id)
+    {
+        return $this->hospitalizedRepository->findOne($id);
     }
 
     public function index(Request $filter)
@@ -33,25 +37,22 @@ class HospitalizedServices
         return $data;
     }
 
-    public function create(PatientDTO $patientDTO)
+    public function create(CreateHospitalizedDTO $hospitalizedDTO)
     {
-        $patient = $this->hospitalizedRepository->create($patientDTO);
-        
-        return $patient;
+        return $this->hospitalizedRepository->create($hospitalizedDTO);
     }
 
-    public function update(PatientDTO $patientDTO): stdClass|null
+    public function update(Request $hospitalizedPayload, string $id): stdClass|null|bool
     {
-        return $this->hospitalizedRepository->update($patientDTO);
-    }
+        $hospitalized = $this->hospitalizedRepository->findBy('patient_id', $id);
+        $hospitalizedDTO = new CreateHospitalizedDTO($hospitalizedPayload, $hospitalized->id);
 
-    public function findOne(string $id): Patient
-    {
-        return $this->hospitalizedRepository->findOne($id);
+        return $this->hospitalizedRepository->update($hospitalizedDTO);
     }
 
     public function delete(string $id)
     {
-        $this->hospitalizedRepository->delete($id);
+        $hospitalized = $this->hospitalizedRepository->findBy('patient_id', $id);
+        $this->hospitalizedRepository->delete($hospitalized->id);
     }
 }

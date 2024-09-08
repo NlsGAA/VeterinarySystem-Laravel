@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\OwnersDTO\OwnersDTO;
 use App\Http\Controllers\Controller;
 use App\Services\OwnersServices;
 use Illuminate\Http\Request;
@@ -10,8 +9,7 @@ use Illuminate\Http\Request;
 class OwnersController extends Controller
 {
     public function __construct(
-        private OwnersServices $ownersServices,
-        private OwnersDTO $ownersDTO
+        private OwnersServices $ownersServices
     ){}
 
     public function index()
@@ -21,10 +19,8 @@ class OwnersController extends Controller
 
     public function update(Request $request)
     {
-        $ownerDto = new OwnersDTO($request);
-
         try {
-            $ownerData = $this->ownersServices->update($ownerDto);
+            $this->ownersServices->update($request);
         } catch (\Exception $e) {
             return 'Erro ao atualizar dono';
         }

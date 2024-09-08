@@ -55,7 +55,7 @@
                         '<li>' +
                     '</ul>' +
                     '<div class="card-body">' +
-                        '<a href="/fichaTecnica/'+ patient.patient_id +'" class="card-link">Detalhado</a>' +
+                        '<a href="/fichaTecnica/'+ patient.id +'" class="card-link">Detalhado</a>' +
                     '</div>' +
                 '</div>'
             );

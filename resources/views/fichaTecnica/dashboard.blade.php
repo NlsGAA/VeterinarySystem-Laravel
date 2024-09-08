@@ -83,6 +83,10 @@
 
 <script>
     
+    if(!{{auth()->user()}}){
+        window.location.href = "http://127.0.0.1:8000/login";
+    }
+
     var token = "{{ auth()->user()->createToken('TokenName')->plainTextToken }}";
 
     $('.patient-danger-button').on('click', function(){

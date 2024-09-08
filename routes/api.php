@@ -27,5 +27,8 @@ Route::middleware(['auth:sanctum', 'auth'])
 
         Route::prefix('hospitalization')->group(function(){
             Route::get('/', 'App\Http\Controllers\HospitalizedController@index')->name('hospitalized.all');
+            Route::post('/create', 'App\Http\Controllers\HospitalizedController@store')->name('hospitalized.create');
+            Route::post('/{id}/update', 'App\Http\Controllers\HospitalizedController@update')->name('hospitalized.update');
+            Route::post('/{id}/delete', 'App\Http\Controllers\HospitalizedController@delete')->name('hospitalized.delete');
         });
 });

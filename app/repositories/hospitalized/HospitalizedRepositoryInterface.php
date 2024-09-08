@@ -2,8 +2,9 @@
 
 namespace App\Repositories\Hospitalized;
 
-use App\Repositories\Contracts\BaseRepository;
-interface HospitalizedRepositoryInterface extends BaseRepository
+use App\Repositories\Contracts\BaseRepositoryInterface;
+
+interface HospitalizedRepositoryInterface extends BaseRepositoryInterface
 {
 
 }

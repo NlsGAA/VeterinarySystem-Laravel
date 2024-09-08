@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('firstName', 100);
             $table->string('lastName', 100);
             $table->string('cpf', 12); 
-            $table->string('email', 100);
+            $table->string('email', 100)->nullable();
             $table->string('cellphone', 12)->nullable();
             $table->string('cellphone2', 12)->nullable();
             $table->string('address', 120);

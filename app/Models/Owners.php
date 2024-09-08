@@ -41,6 +41,10 @@ class Owners extends Model
         'address'       => 'required' ,
     ];
 
+    public function findBy(string $column, string $value){
+        dd( $this->findBy($column, $value));
+    }
+
     public function patients(){
         return $this->hasMany(Patient::class, 'patient_id', 'id');
     }

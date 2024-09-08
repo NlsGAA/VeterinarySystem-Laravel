@@ -12,8 +12,6 @@ class Patient extends Model
     use SoftDeletes;
 
     protected $table = 'patients';
-    protected $primaryKey = 'patient_id';
-
     protected $guarded = [];
 
     public function user()

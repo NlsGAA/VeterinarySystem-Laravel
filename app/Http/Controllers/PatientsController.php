@@ -18,7 +18,7 @@ class PatientsController extends Controller
     public function store(Request $request)
     {
         try {
-            $patient = $this->patientsServices->create(new PatientDTO($request));
+            $patient = $this->patientsServices->create($request);
         } catch (Exception $e) {
             return $e;
         }
@@ -80,7 +80,7 @@ class PatientsController extends Controller
             throw new Exception("Não foi possível atualizar cadastro" . $e);
         }
         return response()->json([
-            'pacientes' => $patient,
+            'message' => 'Paciente atualizado com sucesso!',
             'status' => 200
         ], 200);
     }

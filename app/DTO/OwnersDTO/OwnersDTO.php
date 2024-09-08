@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class OwnersDTO
 {
+    public ?string $id;
     public ?string $firstName;
     public ?string $lastName;
     public ?string $cpf;
@@ -14,14 +15,15 @@ class OwnersDTO
     public ?string $cellphone2 = null;
     public ?string $address = null;
     
-    public function __construct(Request $request)
+    public function __construct(Request $ownersPayload, $ownerId = null)
     {
-        $this->firstName    = $request->firstName;
-        $this->lastName     = $request->lastName;
-        $this->cpf          = $request->cpf;
-        $this->email        = $request->email;
-        $this->cellphone    = $request->cellphone;
-        $this->cellphone2   = $request->cellphone2;
-        $this->address      = $request->address;
+        $this->id           = $ownerId;
+        $this->firstName    = $ownersPayload->firstName;
+        $this->lastName     = $ownersPayload->lastName;
+        $this->cpf          = $ownersPayload->cpf;
+        $this->email        = $ownersPayload->email;
+        $this->cellphone    = $ownersPayload->cellphone;
+        $this->cellphone2   = $ownersPayload->cellphone2;
+        $this->address      = $ownersPayload->address;
     }
 }

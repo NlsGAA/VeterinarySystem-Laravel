@@ -6,17 +6,22 @@ use Illuminate\Http\Request;
 
 class CreateHospitalizedDTO
 {
+    public ?string $id;
     public $user_id;
     public $patient_id;
-    public int $SituationId;
-    public int $doctorId;
+    public int $situation_id;
+    public int $doctor_id;
+    public ?int $updated_by;
 
-    public function __construct(Request $request, $logged_user_id)
+    public function __construct(Request $request, string $id = null)
     {
-        $this->user_id              = $logged_user_id;  
-        $this->patient_id           = $request->patient_id;
-        $this->SituationId          = $request->situacaoInternacao;
-        $this->doctorId             = $request->drResponsavel;
+        $userId             = auth()->user()->id;
+        $this->id           = $id;
+        $this->user_id      = $userId;
+        $this->patient_id   = $request->patient_id;
+        $this->situation_id = $request->situacaoInternacao;
+        $this->doctor_id    = $request->drResponsavel;
+        $this->updated_by   = $userId;
     }
 
     public function getUserId()
@@ -31,11 +36,11 @@ class CreateHospitalizedDTO
 
     public function getSituationId()
     {
-        return $this->SituationId;
+        return $this->situation_id;
     }
 
     public function getDoctorId()
     {
-        return $this->doctorId;
+        return $this->doctor_id;
     }
 }

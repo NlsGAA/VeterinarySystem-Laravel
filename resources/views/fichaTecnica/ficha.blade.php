@@ -4,41 +4,42 @@
 
 @section('content')
 
-    <div class="col-md-12 offset-md-1 row" id="background-form">
+<div class="container mt-5">
+    <div class="col-md-12 offset-md-1 shadow-lg bg-white rounded p-2 d-inline-block">
         <form method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="row  form-body">
+            <div class="row p-3 w-100">
                 <div class="row mb-2">
                     <div class="col-md-5">
-                        <label for="image" class="form-label">Imagem:</label>
+                        <label for="image" class="form-label fw-bold fw-bold">Imagem:</label>
                         <input type="file" class="form-control-file" id="image" name="image">
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-5">
-                        <label for="nome" class="form-label">Nome:</label>
+                        <label for="nome" class="form-label fw-bold">Nome:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Nome" name="nome" id="nome" required>
                     </div>
                     <div class="col-md-5">
-                        <label for="raca" class="form-label">Raça:</label>
+                        <label for="raca" class="form-label fw-bold">Raça:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Raça" name="raca" id="raca" required>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <div class="col-md-10">
-                        <label for="especie" class="form-label">Espécie:</label>
+                        <label for="especie" class="form-label fw-bold">Espécie:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Espécie" name="especie" id="especie" required>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <div class="col-md-5">
-                        <label for="peso" class="form-label">Peso:</label>
+                        <label for="peso" class="form-label fw-bold">Peso:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Peso" name="peso" id="peso" required>
                     </div>
                     <div class="col-md-5">
-                        <label class="form-label">Tipo de Peso:</label>
+                        <label class="form-label fw-bold">Tipo de Peso:<span class="text-danger">*</span></label>
                         <select class="form-select" name="tipoPeso" id="tipoPeso" required>
                             <option value="0">Kilos</option>
                             <option value="1">Gramas</option>
@@ -48,18 +49,18 @@
 
                 <div class="row mb-2">
                     <div class="col-md-10">
-                        <label for="coloracao" class="form-label">Coloração:</label>
+                        <label for="coloracao" class="form-label fw-bold">Coloração:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Coloração" name="coloracao" id="coloracao" required>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <div class="col-md-5">
-                        <label for="idade" class="form-label">Idade:</label>
+                        <label for="idade" class="form-label fw-bold">Idade:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Idade" name="idade" id="idade" required>
                     </div>
                     <div class="col-md-5">
-                        <label class="form-label">Tipo de Idade:</label>
+                        <label class="form-label fw-bold">Tipo de Idade:<span class="text-danger">*</span></label>
                         <select class="form-select" name="tipoIdade" id="tipoIdade" required>
                             <option value="0">Anos</option>
                             <option value="1">Meses</option>
@@ -69,14 +70,14 @@
 
                 <div class="row mb-2">
                     <div class="col-md-10">
-                        <label for="procedencia" class="form-label">Procedência:</label>
+                        <label for="procedencia" class="form-label fw-bold">Procedência:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" placeholder="Procedência" name="procedencia" id="procedencia" required>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <div class="col-md-10">
-                        <label for="motivoCadastro" class="form-label">Motivo do cadastro:</label>
+                        <label for="motivoCadastro" class="form-label fw-bold">Motivo do cadastro:<span class="text-danger">*</span></label>
                         <select class="form-select" name="motivoCadastro" id="motivoCadastro" onchange="internamento()" required>
                             <option value="1" selected>Serviços gerais</option>
                             <option value="2">Internamento</option>
@@ -89,7 +90,7 @@
                     <div style="display: none" id="internamentoSituacao" >
                         <div class="row mb-2">
                             <div class="col-md-10">
-                                <label for="situacaoInternacao" class="form-label">Situação:</label>
+                                <label for="situacaoInternacao" class="form-label fw-bold">Situação:<span class="text-danger">*</span></label>
                                 <select class="form-select" name="situacaoInternacao" id="situacaoInternacao" required>
                                     <option value="1" selected>Urgência</option>
                                     <option value="2">Clínica</option>
@@ -102,7 +103,7 @@
 
                         <div class="row mb-2">
                             <div class="col-md-10">
-                                <label>Dr(a) responsável:</label>
+                                <label class="form-label fw-bold">Dr(a) responsável:<span class="text-danger">*</span></label>
                                 <select class="form-select" name="drResponsavel" id="drResponsavel" required></select>
                             </div>
                         </div>
@@ -117,6 +118,7 @@
             </div>
         </form>
     </div>
+</div>
 
 <script>
     function internamento(){

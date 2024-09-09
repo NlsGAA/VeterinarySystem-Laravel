@@ -11,25 +11,25 @@
             <div class="row p-3 w-100">
                 <div class="mb-2">
                     <div class="">
-                        <label for="nome" class="form-label"><b>Nome:</b></label>
+                        <label for="nome" class="form-label fw-bold">Nome:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control w-100" placeholder="Nome" name="firstName" required>
                     </div>
                     <div class="">
-                        <label for="raca" class="form-label"><b>Sobrenome:</b></label>
+                        <label for="raca" class="form-label fw-bold">Sobrenome:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control w-100" placeholder="Sobrenome" name="lastName" required>
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <div class="">
-                        <label for="especie" class="form-label"><b>Email:</b></label>
+                        <label for="especie" class="form-label fw-bold">Email:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control w-100" placeholder="Email" name="email" required>
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <div class="">
-                        <label for="especie" class="form-label"><b>Cpf:</b></label>
+                        <label for="especie" class="form-label fw-bold">Cpf:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control w-100" maxlength="11" placeholder="Cpf" name="cpf" required>
                     </div>
                 </div>
@@ -38,20 +38,20 @@
 
                 <div class="mb-2">
                     <div class="">
-                        <label for="coloracao" class="form-label"><b>Endereço:</b></label>
+                        <label for="coloracao" class="form-label fw-bold">Endereço:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control w-100" placeholder="Endereço" name="address" required>
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <div class="">
-                        <label for="coloracao" class="form-label"><b>Celular:</b></label>
+                        <label for="coloracao" class="form-label fw-bold">Celular:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control w-100" maxlength="11" placeholder="Celular" name="cellphone" required>
                     </div>
                 </div>
                 <div class="mb-2">
                     <div class="">
-                        <label for="coloracao" class="form-label"><b>Telefone Residencial:</b></label>
+                        <label for="coloracao" class="form-label fw-bold">Telefone Residencial:<span class="text-danger">*</span></label>
                         <input type="text" class="form-control w-100" maxlength="11" placeholder="Telefone Residencial" name="cellphone2" required>
                     </div>
                 </div>

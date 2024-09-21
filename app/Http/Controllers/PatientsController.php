@@ -20,7 +20,7 @@ class PatientsController extends Controller
         try {
             $patient = $this->patientsServices->create($request);
         } catch (Exception $e) {
-            return $e;
+            return response()->json(['Erro ao cadastrar paciente'], 500);
         }
 
         return response()->json([
@@ -35,7 +35,7 @@ class PatientsController extends Controller
         try {
             $patients = $this->patientsServices->index($filter);
         } catch (Exception $e) {
-            return $e;
+            return response()->json(['Erro ao buscar pacientes'], 500);
         }
 
         return response()->json([
@@ -49,7 +49,7 @@ class PatientsController extends Controller
         try {
             $patient = $this->patientsServices->findOne($id);
         } catch (Exception $e) {
-            return $e;
+            return response()->json(['Não foi possível localizar paciente'], 500);
         }
 
         return response()->json([
@@ -61,13 +61,13 @@ class PatientsController extends Controller
     public function destroy($id)
     {
         try {
-            $patient = $this->patientsServices->delete($id);
+            $this->patientsServices->delete($id);
         } catch (Exception $e) {
-            throw new Exception($e);
+            return response()->json(['Erro ao deletar paciente'], 500);
         }
 
         return response()->json([
-            'pacientes' => $patient,
+            'message' => 'Paciente deletado com sucesso!',
             'status' => 200
         ], 200);
     }
@@ -75,9 +75,9 @@ class PatientsController extends Controller
     public function update(Request $request): JsonResponse
     {
         try {
-            $patient = $this->patientsServices->update(new PatientDTO($request));
+            $this->patientsServices->update(new PatientDTO($request));
         } catch (Exception $e) {
-            throw new Exception("Não foi possível atualizar cadastro" . $e);
+            return response()->json(["Não foi possível atualizar cadastro"], 500);
         }
         return response()->json([
             'message' => 'Paciente atualizado com sucesso!',

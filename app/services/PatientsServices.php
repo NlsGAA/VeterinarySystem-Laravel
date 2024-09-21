@@ -14,7 +14,7 @@ class PatientsServices
 {
     public function __construct(
         private PatientsRepositoryInterface $patientsRepository,
-        // private HospitalizedRepository $hospitalizedRepository
+        private HospitalizedRepository $hospitalizedRepository
     ){
     }
 
@@ -29,7 +29,7 @@ class PatientsServices
         
         if(!empty($patient) && $patientDTO->motivoCadastro == 2){
             $patientDTO = new CreateHospitalizedDTO($patientPayload, auth()->user()->id);
-            // $this->hospitalizedRepository->create($patientDTO, $patient->patient_id);
+            $this->hospitalizedRepository->create($patientDTO, $patient->patient_id);
         }
 
         return $patient;

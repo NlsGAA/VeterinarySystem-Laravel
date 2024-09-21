@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('motivoCadastro');
             $table->foreignId('user_id')->constrained();
             $table->string('image')->nullable();
+            $table->foreignId('owner_id')->constrained('owners_data','id')->onDelete('cascade');
             $table->timestamps();
         });
     }

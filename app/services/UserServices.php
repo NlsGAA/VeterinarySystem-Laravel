@@ -39,7 +39,7 @@ class UserServices
         $credentials = $request->only('email', 'password');
 
         $user = User::where('email', $request->email)->first();
-        if(!Auth::attempt($request->only('email', 'password')))
+        if(!Auth::attempt($credentials))
         {
             throw ValidationException::withMessages([
                 'data' => 'Email/Senha incorretos'

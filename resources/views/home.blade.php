@@ -30,6 +30,7 @@
         const patients = response.pacientes
 
         patients.forEach(patient => {
+            
             let patientWeightType = ' Kilos';
             if(patient.tipoPeso !== 0){
                 let patientWeightType = ' Gramas'
@@ -39,10 +40,18 @@
             if(patient.tipoIdade !== 0){
                 let patientYearsType = ' Meses'
             }
+            
+            const patientImages = JSON.parse(patient.image);
+            let patientImgTag = '';
+            if(patientImages != null && Array.isArray(patientImages)){
+                patientImages.forEach(patientImage => {
+                    patientImgTag += '<img src="img/patientsImages/'+ patientImage +'" class="card-img-top" alt="imagem de:'+ patient.nome +'">'
+                });
+            }
 
             $('#card-animals').prepend(
                 '<div class="card col-md-3 patient-card-atr">' +
-                    '<img src="img/'+ patient.image +'" class="card-img-top" alt="imagem de:'+ patient.nome +'">' +
+                    patientImgTag +
                     '<div class="card-body">' +
                         '<h5 class="card-title">'+ patient.nome +'</h5>' +
                         '<p class="card-text">Alguma informação</p>' +

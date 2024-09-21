@@ -19,9 +19,10 @@ class PatientDTO
     public int $tipoIdade;
     public string $procedencia;
     public string $motivoCadastro;
-    public ?string $image = null;
+    public ?string $image;
     public int $situationId;
     public int $doctorId;
+    public int $ownerId;
 
     public function __construct(Request $request)
     {
@@ -37,15 +38,22 @@ class PatientDTO
         $this->tipoIdade            = $request->tipoIdade;
         $this->procedencia          = $request->procedencia;
         $this->motivoCadastro       = $request->motivoCadastro;
-        
-        if(isset($request->image) && !empty($request->image)){
-            if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $requestImage = $request->image;
-                $extension = $requestImage->extension();
-                $imageName = md5($requestImage->getClientOriginalname() . strtotime("now") . '.' . $extension);
-                $requestImage->move(public_path('img/patientsImages'), $imageName);
-                $this->image = $imageName;
-            };
+        $this->ownerId              = $request->patientOwner;
+
+        $imageFile = ($request->file('image')) ?? null;
+        if(isset($imageFile) && !empty($imageFile)) {
+            $filesName = $imageFile['name'];
+            $tmpName = $imageFile['tmp_name'];
+            $filesToJson = [];
+
+            foreach($filesName as $key => $fileName)
+            {
+                $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+                $fileUniqName = uniqid() . '.' . $extension;
+                move_uploaded_file($tmpName[$key], 'img/patientsImages/'.$fileUniqName);
+                $filesToJson[] = $fileUniqName;
+            }
+            $this->image = json_encode($filesToJson);
         }
     }
 }

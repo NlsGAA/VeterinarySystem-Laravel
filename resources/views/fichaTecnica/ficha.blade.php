@@ -12,7 +12,7 @@
                 <div class="row mb-2">
                     <div class="col-md-5">
                         <label for="image" class="form-label fw-bold fw-bold">Imagem:</label>
-                        <input type="file" class="form-control-file" id="image" name="image">
+                        <input type="file" class="form-control-file" id="image" name="image[]" multiple>
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -44,6 +44,13 @@
                             <option value="0">Kilos</option>
                             <option value="1">Gramas</option>
                         </select>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-10">
+                        <label class="form-label fw-bold">Responsável:<span class="text-danger">*</span></label>
+                        <select class="form-select" name="patientOwner" id="patientOwner" required></select>
                     </div>
                 </div>
 
@@ -138,6 +145,8 @@
             var formData = new FormData(this);
             var token = "{{ auth()->user()->createToken('TokenName')->plainTextToken }}";
 
+            console.log(formData)
+
             $.ajax({
                 url: "{{ route('patient.create') }}",
                 type: 'POST',
@@ -184,6 +193,28 @@
             },
             error: function(response) {
                 alert('Erro ao resgatar doutores.');
+            }
+        });
+
+        $.ajax({
+            url: "{{ route('owners.all') }}",
+            type: 'GET',
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + token
+            },
+            success: function(response) {
+                console.log(response)
+                response.forEach(owner => {
+                    $('#patientOwner').prepend(
+                        '<option value="'+owner.id+'">'+owner.firstName + ' ' + owner.lastName+'</option>'
+                    );
+                });
+            },
+            error: function(response) {
+                alert('Erro ao resgatar donos.');
             }
         });
 });

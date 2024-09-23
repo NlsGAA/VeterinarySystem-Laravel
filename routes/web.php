@@ -11,7 +11,7 @@ Route::get('/fichaTecnica', [vetController::class, 'ficha'])->middleware('auth')
 Route::get('/fichaTecnica/{id}', [vetController::class, 'show'])->middleware('auth');
 Route::get('/fichaTecnica/edit/{id}', [vetController::class, 'edit'])->name('patient.edit')->middleware('auth');
 
-Route::get('/dashboard', [vetController::class, 'dashboard'])->middleware('auth')->name('patient.dashboard');
+Route::get('/dashboard', [vetController::class, 'dashboard'])->name('patient.dashboard');
 Route::get('/internamentos', [vetController::class, 'internamentos'])->name('patient_hospitalized');
 
 Route::get('/owners', [vetController::class, 'ownersCreate'])->name('owners');

@@ -22,12 +22,12 @@ class PatientDTO
     public ?string $image;
     public int $situationId;
     public int $doctorId;
-    public int $ownerId;
+    public int $owner_id;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, $patientId = null)
     {
         $this->user_id              = auth()->user()->id;
-        $this->id                   = $request->id ?? null;
+        $this->id                   = $request->id ?? $patientId;
         $this->nome                 = $request->nome;
         $this->raca                 = $request->raca;
         $this->especie              = $request->especie;
@@ -38,7 +38,7 @@ class PatientDTO
         $this->tipoIdade            = $request->tipoIdade;
         $this->procedencia          = $request->procedencia;
         $this->motivoCadastro       = $request->motivoCadastro;
-        $this->ownerId              = $request->patientOwner;
+        $this->owner_id              = $request->patientOwner;
 
         $imageFile = ($request->file('image')) ?? null;
         if(isset($imageFile) && !empty($imageFile)) {

@@ -20,7 +20,7 @@ class PatientsController extends Controller
         try {
             $patient = $this->patientsServices->create($request);
         } catch (Exception $e) {
-            return response()->json(['Erro ao cadastrar paciente'], 500);
+            return response()->json(['Erro ao cadastrar paciente' . $e], 500);
         }
 
         return response()->json([

@@ -13,12 +13,11 @@ class CreateHospitalizedDTO
     public int $doctor_id;
     public ?int $updated_by;
 
-    public function __construct(Request $request, string $id = null)
+    public function __construct(Request $request, string $patientId = null)
     {
         $userId             = auth()->user()->id;
-        $this->id           = $id;
         $this->user_id      = $userId;
-        $this->patient_id   = $request->patient_id;
+        $this->patient_id   = $request->patient_id ?? $patientId;
         $this->situation_id = $request->situacaoInternacao;
         $this->doctor_id    = $request->drResponsavel;
         $this->updated_by   = $userId;

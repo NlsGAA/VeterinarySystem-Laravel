@@ -8,13 +8,13 @@ use App\Models\Patient;
 use Illuminate\Http\Request;
 use App\DTO\Hospitalized\CreateHospitalizedDTO;
 use App\Repositories\Contracts\PatientsRepositoryInterface;
-use App\Repositories\Hospitalized\HospitalizedRepository;
+use App\Repositories\Hospitalized\HospitalizedRepositoryInterface;
 
 class PatientsServices
 {
     public function __construct(
         private PatientsRepositoryInterface $patientsRepository,
-        private HospitalizedRepository $hospitalizedRepository
+        private HospitalizedRepositoryInterface $hospitalizedRepository
     ){
     }
 
@@ -28,8 +28,7 @@ class PatientsServices
         $patient = $this->patientsRepository->create($patientDTO);
         
         if(!empty($patient) && $patientDTO->motivoCadastro == 2){
-            $patientDTO = new CreateHospitalizedDTO($patientPayload, auth()->user()->id);
-            $this->hospitalizedRepository->create($patientDTO, $patient->patient_id);
+            $this->createHospitalization($patientPayload, $patient->id);
         }
 
         return $patient;
@@ -37,14 +36,14 @@ class PatientsServices
 
     public function update(PatientDTO $patientDTO): stdClass|null|bool
     {
-        // $patient_hospitalized = $this->hospitalizedRepository->findByPatientId($patientDTO->patient_id);
+        $patient_hospitalized = $this->hospitalizedRepository->findByPatientId($patientDTO->id);
 
-        // if($patientDTO->motivoCadastro == 2 && !$patient_hospitalized){
-            // $this->hospitalizedRepository->create($patientDTO);
-        // }
-        // if($patientDTO->motivoCadastro != 2 && $patient_hospitalized){
-            // $this->hospitalizedRepository->delete($patientDTO->patient_id);
-        // }
+        if($patientDTO->motivoCadastro == 2 && !$patient_hospitalized){
+            $this->hospitalizedRepository->create($patientDTO);
+        }
+        if($patientDTO->motivoCadastro != 2 && $patient_hospitalized){
+            $this->hospitalizedRepository->delete($patientDTO->id);
+        }
 
         return $this->patientsRepository->update($patientDTO);
     }
@@ -57,5 +56,11 @@ class PatientsServices
     public function delete(string $id)
     {
         return $this->patientsRepository->delete($id);
+    }
+
+    private function createHospitalization($patientPayload, int $patientId)
+    {
+        $patientDTO = new CreateHospitalizedDTO($patientPayload, $patientId);
+        return $this->hospitalizedRepository->create($patientDTO);
     }
 }

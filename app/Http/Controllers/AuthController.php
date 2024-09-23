@@ -21,7 +21,9 @@ class AuthController extends Controller
         try {
             $user = $this->userServices->create($request);
         } catch (Exception $e) {
-            throw new Exception('Não foi possível cadastrar o usuário ' . $e);
+            return response()->json([
+                'message' => 'Não foi possível cadastrar o usuário '
+            ], status: 403);
         }
 
         return response()->json([

@@ -26,7 +26,7 @@ abstract class BaseRepository
                         ->toArray();
         }
 
-        return $this->model->all();
+        return $this->model->get();
     }
 
     public function create($modelDto): Model

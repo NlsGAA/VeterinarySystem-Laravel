@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('image')->nullable();
             $table->foreignId('owner_id')->constrained('owners_data','id')->onDelete('cascade');
-            $table->timestamp('deleted_at');
+            $table->dateTime('deleted_at')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();
         });

@@ -63,4 +63,9 @@ class PatientsServices
         $patientDTO = new CreateHospitalizedDTO($patientPayload, $patientId);
         return $this->hospitalizedRepository->create($patientDTO);
     }
+
+    public function findMine()
+    {
+        return $this->patientsRepository->findMine();
+    }
 }

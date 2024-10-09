@@ -5,16 +5,14 @@ namespace App\Services;
 use App\Http\Requests\Api\AuthRequest;
 use App\Models\User;
 use App\Repositories\Users\UserRepository;
-use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class UserServices 
 {
     public function __construct(
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
     ){
     }
 
@@ -37,20 +35,19 @@ class UserServices
     public function findOne(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
         $user = User::where('email', $request->email)->first();
+        
         if(!Auth::attempt($credentials))
         {
-            throw ValidationException::withMessages([
-                'data' => 'Email/Senha incorretos'
-            ]);
+            return response()->json([
+                'message' => 'Email/Senha incorretos',
+                'status' => 'false'
+            ], 401);
         }
 
-        // desloga o usuário de todos outros dispositivos
         $user->tokens()->delete();
-
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return $token;
+        return ['token' => $token, 'username' => $user->name];
     }
 }

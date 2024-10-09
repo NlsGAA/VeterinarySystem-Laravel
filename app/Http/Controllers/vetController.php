@@ -73,10 +73,10 @@ class vetController extends Controller
         return redirect('/login');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
 
-        $user = auth()->user();
+        $user = auth()->user;
         $registros = $user->patients;
 
         return view('fichaTecnica.dashboard', compact('registros'));

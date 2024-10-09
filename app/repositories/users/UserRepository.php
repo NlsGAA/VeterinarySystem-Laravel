@@ -16,26 +16,4 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     ){
         parent::__construct($this->user);
     }
-
-    // public function create(CreatePatientDTO $createPatientDTO): stdClass
-    // {
-    //     $patient =  $this->user->create(
-    //         (array) $createPatientDTO
-    //     );
-
-    //     return (object) $patient->toArray();
-    // }
-
-    // public function update(UpdatePatientDTO $updatePatientDTO): stdClass|null
-    // {
-    //     $patient = $this->user->find($updatePatientDTO->id);
-
-    //     if(!$patient) return null;
-        
-    //     $patient->update(
-    //         (array) $updatePatientDTO
-    //     );
-
-    //     return (object) $patient->toArray();
-    // }
 }

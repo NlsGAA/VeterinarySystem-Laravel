@@ -20,7 +20,7 @@ class PatientsController extends Controller
         try {
             $patient = $this->patientsServices->create($request);
         } catch (Exception $e) {
-            return response()->json(['Erro ao cadastrar paciente' . $e], 500);
+            return response()->json(['Erro ao cadastrar paciente'], 500);
         }
 
         return response()->json([
@@ -82,6 +82,20 @@ class PatientsController extends Controller
         return response()->json([
             'message' => 'Paciente atualizado com sucesso!',
             'status' => 200
+        ], 200);
+    }
+
+    public function dashboard(): JsonResponse
+    {
+        try {
+            $patients = $this->patientsServices->findMine();
+        } catch (\Throwable $th) {
+            return response()->json(['Não foi possível resgatar pacientes', 500]);
+        }
+
+        return response()->json([
+            'message' => 'Pacientes resgatados com sucesso!',
+            'pacientes' => $patients
         ], 200);
     }
 }

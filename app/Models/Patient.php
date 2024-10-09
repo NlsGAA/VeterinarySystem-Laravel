@@ -14,6 +14,19 @@ class Patient extends Model
     protected $table = 'patients';
     protected $guarded = [];
 
+    public $casts = [
+        'nome'              => 'string' ,
+        'raca'              => 'string' ,
+        'especie'           => 'string' ,
+        'peso'              => 'string' ,
+        'tipoPeso'          => 'string' ,
+        'coloracao'         => 'string' ,
+        'idade'             => 'string' ,
+        'tipoIdade'         => 'string' ,
+        'procedencia'       => 'string' ,
+        'motivoCadastro'    => 'string' ,
+        'user_id'           => 'string' ,
+    ];
     public function user()
     {
         return $this->belongsTo('App\Models\User');

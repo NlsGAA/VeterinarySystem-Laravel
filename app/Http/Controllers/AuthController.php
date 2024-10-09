@@ -35,16 +35,17 @@ class AuthController extends Controller
     public function login(Request $request): JsonResponse
     {
         try {
-            $token = $this->userServices->findOne($request);
+            $response = $this->userServices->findOne($request);
         } catch (Exception $e) {
-            throw new Exception('Usuário inválido ' . $e);
+            throw new Exception('Usuário inválido');
         }
 
         return response()->json([
             'message'   => 'success',
             'data'      => [
-                'token' => $token,
-                'token_type' => 'Bearer'
+                'token' => $response['token'],
+                'token_type' => 'Bearer',
+                'user' => auth()->user(),
             ],
             'status' => 200,
         ], 200);

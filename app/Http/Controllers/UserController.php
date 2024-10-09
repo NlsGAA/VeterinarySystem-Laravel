@@ -21,8 +21,8 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'Doutores' => $patients,
-            'Status' => 200
+            'doutores' => $patients,
+            'status' => 200
         ], 200);
     }
 }

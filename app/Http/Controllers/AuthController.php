@@ -37,17 +37,33 @@ class AuthController extends Controller
         try {
             $response = $this->userServices->findOne($request);
         } catch (Exception $e) {
-            throw new Exception('Usuário inválido');
+            throw new Exception('Usuário inválido' . $e);
         }
 
         return response()->json([
             'message'   => 'success',
             'data'      => [
-                'token' => $response['token'],
+                'token' => $response,
                 'token_type' => 'Bearer',
-                'user' => auth()->user(),
             ],
             'status' => 200,
+        ], 200);
+    }
+
+
+    public function authUser(): JsonResponse    
+    {
+        try {
+            $user = $this->userServices->authUser();
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Não foi possível resgatar usuário'
+            ], status: 500);
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'user' => $user,
         ], 200);
     }
 

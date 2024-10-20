@@ -28,17 +28,17 @@ class PatientDTO
     {
         $this->user_id              = auth()->user()->id;
         $this->id                   = $request->id ?? $patientId;
-        $this->nome                 = $request->nome;
-        $this->raca                 = $request->raca;
-        $this->especie              = $request->especie;
-        $this->peso                 = $request->peso;
-        $this->tipoPeso             = $request->tipoPeso;
-        $this->coloracao            = $request->coloracao;
-        $this->idade                = $request->idade;
-        $this->tipoIdade            = $request->tipoIdade;
-        $this->procedencia          = $request->procedencia;
-        $this->motivoCadastro       = $request->motivoCadastro;
-        $this->owner_id              = $request->patientOwner;
+        $this->nome                 = $request->name;
+        $this->raca                 = $request->breed;
+        $this->especie              = $request->species;
+        $this->peso                 = $request->weight;
+        $this->tipoPeso             = $request->weightType;
+        $this->coloracao            = $request->color;
+        $this->idade                = $request->age;
+        $this->tipoIdade            = $request->ageType;
+        $this->procedencia          = $request->origin;
+        $this->motivoCadastro       = $request->reason;
+        $this->owner_id             = $request->owner;
 
         $imageFile = ($request->file('image')) ?? null;
         if(isset($imageFile) && !empty($imageFile)) {

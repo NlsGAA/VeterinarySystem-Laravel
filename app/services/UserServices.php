@@ -35,19 +35,24 @@ class UserServices
     public function findOne(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        $user = User::where('email', $request->email)->first();
         
-        if(!Auth::attempt($credentials))
+        if(Auth::attempt($credentials))
         {
-            return response()->json([
-                'message' => 'Email/Senha incorretos',
-                'status' => 'false'
-            ], 401);
+            $user = User::where('email', $request->email)->first();
+            $user->tokens()->delete();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return $token;
         }
 
-        $user->tokens()->delete();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json([
+            'message' => 'Email/Senha incorretos',
+            'status' => 'false'
+        ], 401);
+    }
 
-        return ['token' => $token, 'username' => $user->name];
+    public function authUser()
+    {
+        return Auth::user();
     }
 }

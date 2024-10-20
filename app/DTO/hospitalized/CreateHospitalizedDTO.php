@@ -18,8 +18,8 @@ class CreateHospitalizedDTO
         $userId             = auth()->user()->id;
         $this->user_id      = $userId;
         $this->patient_id   = $request->patient_id ?? $patientId;
-        $this->situation_id = $request->situacaoInternacao;
-        $this->doctor_id    = $request->drResponsavel;
+        $this->situation_id = $request->situation;
+        $this->doctor_id    = $request->doctor;
         $this->updated_by   = $userId;
     }
 

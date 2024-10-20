@@ -53,7 +53,7 @@ class PatientsController extends Controller
         }
 
         return response()->json([
-            'pacientes' => $patient,
+            'paciente' => $patient,
             'status' => 200
         ], 200);
     }

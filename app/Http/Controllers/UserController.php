@@ -15,13 +15,13 @@ class UserController extends Controller
     public function index(Request $filter)
     {
         try {
-            $patients = $this->userServices->index($filter);
+            $doctors = $this->userServices->index($filter);
         } catch (Exception $e) {
             return $e;
         }
 
         return response()->json([
-            'doutores' => $patients,
+            'doutores' => $doctors,
             'status' => 200
         ], 200);
     }

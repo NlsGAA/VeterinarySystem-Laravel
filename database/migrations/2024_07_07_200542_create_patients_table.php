@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('raca');
-            $table->string('especie');
-            $table->double('peso');
-            $table->boolean('tipoPeso');
-            $table->string('coloracao');
-            $table->integer('idade');
-            $table->boolean('tipoIdade');
-            $table->string('procedencia');
-            $table->string('motivoCadastro');
+            $table->string('name');
+            $table->string('breed');
+            $table->string('species');
+            $table->double('weight');
+            $table->boolean('weight_type');
+            $table->string('color');
+            $table->integer('age');
+            $table->boolean('age_type');
+            $table->string('origin');
+            $table->string('reason');
             $table->foreignId('user_id')->constrained();
             $table->string('image')->nullable();
             $table->foreignId('owner_id')->constrained('owners_data','id')->onDelete('cascade');

@@ -27,8 +27,9 @@ class OwnersServices
         $owner = $this->ownersRepository->findBy('cpf', $ownerPayload->cpf);
         $ownerDto = new OwnersDTO($ownerPayload, $owner->id ?? null);
 
-        if(empty($owner))
+        if(empty($owner)) {
             return $this->create($ownerDto);
+        }
         
         return $this->ownersRepository->update($ownerDto);
     }

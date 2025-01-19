@@ -8,6 +8,7 @@ use App\Repositories\Users\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use InvalidArgumentException;
 
 class UserServices 
 {
@@ -32,23 +33,25 @@ class UserServices
         return $user;
     }
 
+    public function update(Request $request)
+    {
+        $user = $this->userRepository->findOne($request->id);
+        $user->update($request->all());
+        return $user;
+    }
+
     public function findOne(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        
-        if(Auth::attempt($credentials))
-        {
-            $user = User::where('email', $request->email)->first();
-            $user->tokens()->delete();
-            $token = $user->createToken('auth_token')->plainTextToken;
 
-            return $token;
+        if(!Auth::attempt($credentials)) {
+            throw new InvalidArgumentException('Email/Senha incorretos!');
         }
-
-        return response()->json([
-            'message' => 'Email/Senha incorretos',
-            'status' => 'false'
-        ], 401);
+        
+        $user = User::where('email', $request->email)->first();
+        $user->tokens()->delete();
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return $token;
     }
 
     public function authUser()

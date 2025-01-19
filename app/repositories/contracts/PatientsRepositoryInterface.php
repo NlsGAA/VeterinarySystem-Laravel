@@ -4,5 +4,5 @@ namespace App\Repositories\Contracts;
 
 interface PatientsRepositoryInterface extends BaseRepositoryInterface
 {
-    public function findMine();
+    public function findAllPatients(?string $filterParam);
 }

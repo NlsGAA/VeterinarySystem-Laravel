@@ -16,6 +16,7 @@ class AuthController extends Controller
         protected UserServices $userServices
     ){
     }
+
     public function register(AuthRequest $request): JsonResponse
     {
         try {
@@ -32,24 +33,37 @@ class AuthController extends Controller
             'status'    => 200
         ], 200);
     }
+
     public function login(Request $request): JsonResponse
     {
         try {
             $response = $this->userServices->findOne($request);
         } catch (Exception $e) {
-            throw new Exception('Usuário inválido' . $e);
+            throw new Exception($e->getMessage());
         }
 
         return response()->json([
-            'message'   => 'success',
+            'status'    => 'success',
             'data'      => [
                 'token' => $response,
                 'token_type' => 'Bearer',
             ],
-            'status' => 200,
         ], 200);
     }
 
+    public function update(Request $request): JsonResponse
+    {
+        try {
+            $response = $this->userServices->update($request);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+        return response()->json([
+            'status'    => 'success',
+            'data'      => $response,
+            'message'   => "Usuário atualizado com sucesso!",
+        ], 200);
+    }
 
     public function authUser(): JsonResponse    
     {

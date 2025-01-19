@@ -18,16 +18,16 @@ class PatientsServices
     ){
     }
 
-    public function index(Request $filter)
+    public function index()
     {
-        return $this->patientsRepository->getAll($filter);
+        return $this->patientsRepository->getAll();
     }
     public function create(Request $patientPayload)
     {
         $patientDTO = new PatientDTO($patientPayload);
         $patient = $this->patientsRepository->create($patientDTO);
         
-        if(!empty($patient) && $patientDTO->motivoCadastro == 2){
+        if(!empty($patient) && $patientDTO->reason == 2){
             $this->createHospitalization($patientPayload, $patient->id);
         }
 
@@ -36,12 +36,12 @@ class PatientsServices
 
     public function update(PatientDTO $patientDTO): stdClass|null|bool
     {
-        $patient_hospitalized = $this->hospitalizedRepository->findByPatientId($patientDTO->id);
+        $patientHospitalized = $this->hospitalizedRepository->findByPatientId($patientDTO->id);
 
-        if($patientDTO->motivoCadastro == 2 && !$patient_hospitalized){
+        if($patientDTO->reason == 2 && !$patientHospitalized){
             $this->hospitalizedRepository->create($patientDTO);
         }
-        if($patientDTO->motivoCadastro != 2 && $patient_hospitalized){
+        if($patientDTO->reason != 2 && $patientHospitalized){
             $this->hospitalizedRepository->delete($patientDTO->id);
         }
 
@@ -64,8 +64,8 @@ class PatientsServices
         return $this->hospitalizedRepository->create($patientDTO);
     }
 
-    public function findMine()
+    public function findAllPatients($filterParam): mixed
     {
-        return $this->patientsRepository->findMine();
+        return $this->patientsRepository->findAllPatients($filterParam);
     }
 }

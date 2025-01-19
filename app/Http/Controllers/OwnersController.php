@@ -22,11 +22,12 @@ class OwnersController extends Controller
         try {
             $this->ownersServices->update($request);
         } catch (\Exception $e) {
-            return 'Erro ao atualizar dono' . $e;
+            return 'Erro ao atualizar dono';
         }
         
         return response()->json([
             'message' => 'Cadastro atualizado com sucesso!',
+            'status' => 'success',
         ], 200);
     }
 

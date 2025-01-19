@@ -20,26 +20,31 @@ class PatientsController extends Controller
         try {
             $patient = $this->patientsServices->create($request);
         } catch (Exception $e) {
-            return response()->json(['Erro ao cadastrar paciente'], 500);
+            return response()->json([
+                'exception' => $e,
+                'message'   => 'Erro ao cadastrar paciente',
+                'status'    => 'error'
+            ], 500);
         }
 
         return response()->json([
             'pacientes' => $patient,
             'message' => 'Paciente cadastrado com sucesso!',
-            'status' => 200
+            'status' => 'success'
         ], 200);
     }
 
-    public function index(Request $filter)
+    public function index()
     {
         try {
-            $patients = $this->patientsServices->index($filter);
+            $patients = $this->patientsServices->index();
         } catch (Exception $e) {
             return response()->json(['Erro ao buscar pacientes'], 500);
         }
 
         return response()->json([
             'pacientes' => $patients,
+            'message' => 'Pacientes resgatados com sucesso!',
             'status' => 200
         ], 200);
     }
@@ -49,12 +54,15 @@ class PatientsController extends Controller
         try {
             $patient = $this->patientsServices->findOne($id);
         } catch (Exception $e) {
-            return response()->json(['Não foi possível localizar paciente'], 500);
+            return response()->json([
+                'message' => 'Não foi possível localizar paciente',
+                'status' => 'error'
+            ], 500);
         }
 
         return response()->json([
             'paciente' => $patient,
-            'status' => 200
+            'status' => 'success'
         ], 200);
     }
 
@@ -85,12 +93,13 @@ class PatientsController extends Controller
         ], 200);
     }
 
-    public function dashboard(): JsonResponse
+    public function dashboard(?Request $filterParam): JsonResponse
     {
+        // dd($filterParam);
         try {
-            $patients = $this->patientsServices->findMine();
-        } catch (\Throwable $th) {
-            return response()->json(['Não foi possível resgatar pacientes', 500]);
+            $patients = $this->patientsServices->findAllPatients($filterParam);
+        } catch (Exception $e) {
+            return response()->json(['Não foi possível resgatar pacientes' . $e, 500]);
         }
 
         return response()->json([

@@ -2,9 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
-
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use stdClass;
 
 abstract class BaseRepository
@@ -16,16 +15,8 @@ abstract class BaseRepository
         $this->model = $model;
     }
 
-    public function getAll(Request $filter = null)
+    public function getAll(): array|Collection
     {
-        if(!empty($filter->statusCode))
-        {
-            return $this->model
-                        ->where('motivoCadastro', 'like', $filter->statusCode)
-                        ->get()
-                        ->toArray();
-        }
-
         return $this->model->get();
     }
 
@@ -46,9 +37,13 @@ abstract class BaseRepository
         return $this->model->findOrFail($id);
     }
 
-    public function findBy(string $column, string $value): Model|null
+    public function findBy(string $column, string $operator = '=', string $value): Model|null
     {
-        return $this->model->where($column, $value)->first();
+        return $this->model->where(
+            $column,
+            $operator,
+            $value
+        )->first();
     }
 
     public function delete(string $id): void

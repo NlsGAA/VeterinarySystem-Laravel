@@ -7,7 +7,11 @@ Route::post('/login', 'App\Http\Controllers\AuthController@login')->name('user.l
 
 Route::middleware(['auth:sanctum', 'auth'])
 ->group(function(){
-    Route::get('/user', 'App\Http\Controllers\AuthController@authUser')->name('user.authUser');
+
+    Route::prefix('user')->group(function(){
+        Route::get('/', 'App\Http\Controllers\AuthController@authUser')->name('user.authUser');
+        Route::post('/update', 'App\Http\Controllers\AuthController@update')->name('user.update');
+    });
     
     Route::prefix('patients')->group(function(){
         Route::get('/', 'App\Http\Controllers\PatientsController@index')->name('patient.all');
@@ -15,7 +19,7 @@ Route::middleware(['auth:sanctum', 'auth'])
         Route::post('/update', 'App\Http\Controllers\PatientsController@update')->name('patient.update');
         Route::get('/delete/{id}', 'App\Http\Controllers\PatientsController@destroy')->name('patient.destroy');
         Route::post('/create', 'App\Http\Controllers\PatientsController@store')->name('patient.create');
-        Route::get('/dashboard', 'App\Http\Controllers\PatientsController@dashboard')->name('patient.dashboard');
+        Route::post('/dashboard', 'App\Http\Controllers\PatientsController@dashboard')->name('patient.dashboard');
     });
 
     Route::prefix('owners')->group(function(){

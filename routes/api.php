@@ -22,6 +22,12 @@ Route::middleware(['auth:sanctum', 'auth'])
         Route::post('/dashboard', 'App\Http\Controllers\PatientsController@dashboard')->name('patient.dashboard');
     });
 
+    Route::prefix('types')->group(function() {
+        Route::get('/weight', 'App\Http\Controllers\TypesController@index')->name('type.weight');
+        Route::get('/situation', 'App\Http\Controllers\TypesController@index')->name('type.situation');
+        Route::get('/reason', 'App\Http\Controllers\TypesController@index')->name('type.reason');
+    });
+
     Route::prefix('owners')->group(function(){
         Route::get('/', 'App\Http\Controllers\OwnersController@index')->name('owners.all');
         Route::post('/update', 'App\Http\Controllers\OwnersController@update')->name('owners.update');

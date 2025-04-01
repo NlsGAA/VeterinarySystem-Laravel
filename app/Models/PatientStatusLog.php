@@ -11,15 +11,21 @@ class PatientStatusLog extends Model
 
     protected $table = 'patient_status_logs';
 
+    protected $dates = ['created_at'];
+
     protected $fillable = [
         'status',
         'patient_id',
-        'user_id'
+        'user_id',
+        'message',
+        'created_at',
     ];
 
     protected $cast = [
-        'status' => 'string',
+        'status'     => 'string',
         'patient_id' => 'string',
-        'user_id' => 'string'
+        'user_id'    => 'string',
+        'message'    => 'string',
+        'created_at' => 'datetime:d-m-Y H:i:s',
     ];
 }

@@ -24,8 +24,15 @@ class OwnersServices
     
     public function update(Request $ownerPayload)
     {
-        $owner = $this->ownersRepository->findBy('cpf', $ownerPayload->cpf);
-        $ownerDto = new OwnersDTO($ownerPayload, $owner->id ?? null);
+        $owner = $this->ownersRepository->findBy(
+            'cpf',
+            $ownerPayload->cpf
+        );
+
+        $ownerDto = new OwnersDTO(
+            $ownerPayload, 
+            $owner->id ?? null
+        );
 
         if(empty($owner)) {
             return $this->create($ownerDto);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DTO\PatientDTO;
 use App\Http\Controllers\Controller;
+use App\Observers\PatientLogObserver;
 use App\Services\PatientsServices;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -30,7 +31,7 @@ class PatientsController extends Controller
             'pacientes' => $patient,
             'message' => 'Paciente cadastrado com sucesso!',
             'status' => 'success'
-        ], 200);
+        ], 201);
     }
 
     public function index()
@@ -86,10 +87,12 @@ class PatientsController extends Controller
     public function update(Request $request): JsonResponse
     {
         try {
+            $this->patientsServices->addObservers(new PatientLogObserver());
+
             $this->patientsServices->update(new PatientDTO($request));
         } catch (Exception $e) {
             return response()->json([
-                "Não foi possível atualizar cadastro"
+                "Não foi possível atualizar cadastro" . $e->getMessage()
             ], 500);
         }
         return response()->json([
@@ -104,7 +107,7 @@ class PatientsController extends Controller
             $patients = $this->patientsServices->findAllPatients($filterBy);
         } catch (Exception $e) {
             return response()->json([
-                'Não foi possível resgatar pacientes'
+                'message' => 'Não foi possível resgatar pacientes'
             ], 500);
         }
 

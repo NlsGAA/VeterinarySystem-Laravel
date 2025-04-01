@@ -18,8 +18,12 @@ Route::middleware(['auth:sanctum', 'auth'])
         Route::get('/findPatient/{id}', 'App\Http\Controllers\PatientsController@show')->name('patient.show');
         Route::post('/update', 'App\Http\Controllers\PatientsController@update')->name('patient.update');
         Route::get('/delete/{id}', 'App\Http\Controllers\PatientsController@destroy')->name('patient.destroy');
-        Route::post('/create', 'App\Http\Controllers\PatientsController@store')->name('patient.create');
+        Route::post('/create', 'App\Http\Controllers\PatientsController@store')->name('patient.store');
         Route::post('/dashboard', 'App\Http\Controllers\PatientsController@dashboard')->name('patient.dashboard');
+    });
+
+    Route::prefix('logs')->group(function(){
+        Route::get('/patient/{id}', 'App\Http\Controllers\LogsController@patient')->name('logs.patient');
     });
 
     Route::prefix('types')->group(function() {

@@ -33,7 +33,7 @@ class HospitalizedRepository extends BaseRepository implements HospitalizedRepos
 
     public function findByPatientId($patientId){
         $patient = DB::table('hospitalization')
-            ->where('patient_id', $patientId)
+            ->where('patient_id', 'like', $patientId)
             ->whereNull('deleted_at')
             ->first();
             

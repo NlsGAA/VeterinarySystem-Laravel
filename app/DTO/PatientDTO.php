@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class PatientDTO
 {
+    public $id;
     public $user_id;
-    public ?string $id = null;
     public string $name;
     public string $breed;
     public string $species;
@@ -26,7 +26,7 @@ class PatientDTO
     public function __construct(Request $request, $patientId = null)
     {
         $this->user_id      = auth()->user()->id;
-        $this->id           = $request->id ?? $patientId;
+        $this->id           = $request->id;
         $this->name         = $request->name;
         $this->breed        = $request->breed;
         $this->species      = $request->species;

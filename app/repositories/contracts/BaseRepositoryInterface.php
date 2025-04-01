@@ -13,7 +13,7 @@ interface BaseRepositoryInterface
 
     public function findOne(string $id): Model;
 
-    public function findBy(string $coloumn, string $operator = '=', string $value): Model|null;
+    public function findBy(string $column, string $operator, string $value): Model|null;
 
     public function create($modelDto): Model;
 

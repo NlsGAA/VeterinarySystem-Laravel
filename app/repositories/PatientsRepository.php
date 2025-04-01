@@ -42,14 +42,13 @@ class PatientsRepository extends BaseRepository implements PatientsRepositoryInt
         $sql = $this->patient
             ->join('owners_data', 'patients.owner_id', '=', 'owners_data.id')
             ->select(
-                DB::raw("CONCAT(owners_data.firstName, ' ', owners_data.lastName) AS owner_name"),
+                DB::raw("CONCAT(owners_data.\"firstName\", ' ', owners_data.\"lastName\") AS owner_name"),
                 'patients.*',
             )
             ->where(function(Builder $q) use ($filterParam) {
                 if(!empty($filterParam->filter)) {
                     return $q->whereLike('patients.name', "%{$filterParam->filter}%")
-                    ->orWhere('patients.id', $filterParam)
-                    ->orWhereLike('patients.species', $filterParam);
+                    ->orWhereLike('patients.species', $filterParam->filter);
                 }
             })
             ->orderBy('patients.created_at', 'asc')

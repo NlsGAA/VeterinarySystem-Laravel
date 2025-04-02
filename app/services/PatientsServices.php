@@ -117,7 +117,7 @@ class PatientsServices
 
     public function setLog(string $patientId, string $patientStatus): void {
         foreach($this->observers as $observer) {
-            $observer->setLog($patientId, $patientStatus);
+            $observer->handle($patientId, $patientStatus);
         }
     }
 }

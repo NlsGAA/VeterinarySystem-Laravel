@@ -4,5 +4,5 @@ namespace App\Interfaces;
 
 interface PatientLogObserverInterface
 {
-    public function setLog(string $patientId, string $patientStatus);
+    public function handle(string $patientId, string $patientStatus);
 }

@@ -9,12 +9,36 @@ use Illuminate\Support\Facades\Auth;
 
 class PatientLogObserver implements PatientLogObserverInterface
 {
-    public function setLog(string $patientId, string $patientStatus): void {
-        $logMessage = $this->getMessage($patientStatus);
+    public function handle(string $patientId, string $patientStatus): void {
+        $lastLog = $this->getLastLog($patientId);
 
-        $patientLogModel = new PatientStatusLog();
+        if($lastLog){
+            $logMessage = str_replace(
+                'deu entrada para',
+                'obteve baixa em',
+                $lastLog->message
+            );
 
-        $patientLogModel->create([
+            $this->setLog(
+                $patientId,
+                $patientStatus,
+                $logMessage
+            );
+        }
+
+        $this->setLog($patientId, $patientStatus);
+    }
+
+    private function setLog(
+        string $patientId,
+        string $patientStatus,
+        ?string $logMessage = null
+    ): void {
+        if(!$logMessage){
+            $logMessage = $this->getMessage($patientStatus);
+        }
+
+        PatientStatusLog::create([
             'status' => $patientStatus,
             'patient_id' => $patientId,
             'user_id' => Auth::user()->id,
@@ -22,14 +46,20 @@ class PatientLogObserver implements PatientLogObserverInterface
         ]);
     }
 
-    private function getMessage(string $status)
+    private function getMessage(string $status): string
     {
         $reason = Reason::where('id', $status)->first();
 
-        return match ($status) {
-            '1' => 'Paciente deu entrada para ' . $reason->description,
-            '2' => 'Paciente deu entrada para ' . $reason->description,
-            '3' => 'Paciente deu entrada para ' . $reason->description
-        };
+        $logMessage = 'Paciente deu entrada para ' . $reason->description;
+
+        return $logMessage;
+    }
+
+    private function getLastLog(string $patientId): ?PatientStatusLog {
+        $patientLogModel = new PatientStatusLog();
+
+        return $patientLogModel->where('patient_id', $patientId)
+            ->latest()
+            ->first();
     }
 }

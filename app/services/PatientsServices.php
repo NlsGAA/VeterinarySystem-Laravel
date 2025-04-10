@@ -56,7 +56,7 @@ class PatientsServices
             $this->hospitalizedRepository->delete($patientDTO->id);
         }
         if($patientDTO->reason != $patient->reason){
-            $this->setLog($patientDTO->id, $patientDTO->reason);
+            $this->notifyObservers($patientDTO->id, $patientDTO->reason);
         }
 
 
@@ -115,7 +115,7 @@ class PatientsServices
         $this->observers[] = $observer;
     }
 
-    public function setLog(string $patientId, string $patientStatus): void {
+    public function notifyObservers(string $patientId, string $patientStatus): void {
         foreach($this->observers as $observer) {
             $observer->handle($patientId, $patientStatus);
         }

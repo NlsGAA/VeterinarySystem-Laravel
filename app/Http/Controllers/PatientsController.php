@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTO\PatientDTO;
 use App\Http\Controllers\Controller;
 use App\Observers\PatientLogObserver;
+use App\Observers\TutorEmailObserver;
 use App\Services\PatientsServices;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -88,6 +89,7 @@ class PatientsController extends Controller
     {
         try {
             $this->patientsServices->addObservers(new PatientLogObserver());
+            $this->patientsServices->addObservers(new TutorEmailObserver());
 
             $this->patientsServices->update(new PatientDTO($request));
         } catch (Exception $e) {

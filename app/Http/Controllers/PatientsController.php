@@ -94,8 +94,8 @@ class PatientsController extends Controller
             $this->patientsServices->update(new PatientDTO($request));
         } catch (Exception $e) {
             return response()->json([
-                "Não foi possível atualizar cadastro" . $e->getMessage()
-            ], 500);
+                $e->getMessage()
+            ], $e->getCode());
         }
         return response()->json([
             'message' => 'Paciente atualizado com sucesso!',

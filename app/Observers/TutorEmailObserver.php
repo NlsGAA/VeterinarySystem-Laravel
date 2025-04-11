@@ -4,18 +4,24 @@ namespace App\Observers;
 
 use App\Interfaces\PatientLogObserverInterface;
 use App\Mail\TutorMail;
-use Illuminate\Support\Facades\Mail;
+use App\Services\MailService;
+use App\Types\Email;
 
 class TutorEmailObserver implements PatientLogObserverInterface
 {
     public function handle(string $patientId, string $patientStatus): void {
-        $sent = Mail::to('nicolas.americo@yahoo.com.br', 'Nicolas')->send(new TutorMail([
-            'fromName' => 'Hospital Veterinário',
-            'fromEmail' => 'N0BqW@example.com',
-            'subject' => 'Tutor Mail',
-            'message' => 'Hello World!',
-        ]));
+        $emailTo = new Email('nicolas.americo@yahoo.com.br');
+        $nameTo  = 'Nicolas';
 
-        dd('email enviado', $sent);
+        $emailContent = new TutorMail([
+            'subject'   => 'Status do Paciente',
+            'message'   => 'O paciente ' . $patientId . ' foi alterado para ' . $patientStatus,
+        ]);
+
+        $mailService = new MailService($emailTo, $nameTo, $emailContent);
+        
+        $mailService->send();
+
+        dd('enviou email');
     }
 }

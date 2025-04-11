@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -28,7 +27,7 @@ class TutorMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address($this->data['fromEmail'], $this->data['fromName']),
+            from: new Address(getenv('MAIL_FROM_ADDRESS'), getenv('MAIL_FROM_NAME')),
             subject: $this->data['subject'],
         );
     }

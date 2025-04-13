@@ -16,10 +16,13 @@ class MailService
     }
 
 
-    public function send()
+    public function send(): void
     {
-        $sent = Mail::to($this->emailTo->get(), $this->nameTo)
-            ->send($this->emailContent);
+        Mail::to(
+            $this->emailTo->get(),
+            $this->nameTo
+        )
+        ->send($this->emailContent);
     }
 
 }

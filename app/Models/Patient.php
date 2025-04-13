@@ -58,4 +58,17 @@ class Patient extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(Owners::class, 'owner_id', 'id');
+    }
+    
+    public static function findWithOwner($patientId)
+    {
+        return self::query()
+            ->with(['owner:id,email,firstName,lastName'])
+            ->where('id', $patientId)
+            ->first();
+    }
 }

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\DTO\PatientDTO;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Services\PatientsServices;
 use App\Http\Controllers\Controller;
 use App\Observers\PatientLogObserver;
 use App\Observers\TutorEmailObserver;
-use App\Services\PatientsServices;
-use Exception;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Resources\PatientResource;
 
 class PatientsController extends Controller
 {
@@ -17,11 +17,11 @@ class PatientsController extends Controller
         protected PatientsServices $patientsServices
     ){}
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         try {
             $patient = $this->patientsServices->create($request);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'message'   => 'Erro ao cadastrar paciente',
                 'status'    => 'error'
@@ -35,11 +35,11 @@ class PatientsController extends Controller
         ], 201);
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
         try {
             $patients = $this->patientsServices->index();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'Erro ao buscar pacientes'
             ], 500);
@@ -52,11 +52,13 @@ class PatientsController extends Controller
         ], 200);
     }
 
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
         try {
             $patient = $this->patientsServices->findOne($id);
-        } catch (Exception $e) {
+
+            $patientResource = new PatientResource($patient);
+        } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Não foi possível localizar paciente',
                 'status' => 'error'
@@ -64,16 +66,16 @@ class PatientsController extends Controller
         }
 
         return response()->json([
-            'paciente' => $patient,
+            'paciente' => $patientResource,
             'status' => 'success'
         ], 200);
     }
 
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         try {
             $this->patientsServices->delete($id);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'Erro ao deletar paciente'
             ], 500);
@@ -90,12 +92,9 @@ class PatientsController extends Controller
         try {
             $this->patientsServices->addObservers(new PatientLogObserver());
             $this->patientsServices->addObservers(new TutorEmailObserver());
-
             $this->patientsServices->update(new PatientDTO($request));
-        } catch (Exception $e) {
-            return response()->json([
-                $e->getMessage()
-            ], $e->getCode());
+        } catch (\Exception $e) {
+            return response()->json([ $e->getMessage() ], $e->getCode());
         }
         return response()->json([
             'message' => 'Paciente atualizado com sucesso!',
@@ -107,7 +106,7 @@ class PatientsController extends Controller
     {
         try {
             $patients = $this->patientsServices->findAllPatients($filterBy);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Não foi possível resgatar pacientes'
             ], 500);

@@ -20,19 +20,11 @@ class PatientsRepository extends BaseRepository implements PatientsRepositoryInt
 
     public function findOne(string $id): Model
     {
-        $patient = $this->patient->findOrFail($id);
+        $patient = $this->patient->findOrFail($id)->with('owner')->first();
 
         $reasons = Reason::where('id', $patient->reason)->first();
 
         $patient->reason = $reasons->description;
-
-        $patient->age_type = $patient->age_type == 0 
-            ?  'Anos' 
-            : 'Meses';
-
-        $patient->weight_type = $patient->weight_type == 0 
-            ? 'Kg' 
-            : 'Gramas';
 
         return $patient;
     }

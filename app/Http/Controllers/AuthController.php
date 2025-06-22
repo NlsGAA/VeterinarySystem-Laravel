@@ -43,7 +43,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'status'    => 'success',
+            'status'    => 'success',   
             'data'      => [
                 'token' => $response,
                 'token_type' => 'Bearer',

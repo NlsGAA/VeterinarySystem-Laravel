@@ -26,6 +26,7 @@ class OwnersServices
     {
         $owner = $this->ownersRepository->findBy(
             'cpf',
+            '=',
             $ownerPayload->cpf
         );
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services;
 
@@ -26,22 +26,22 @@ class PatientsServices
     {
         return $this->patientsRepository->getAll();
     }
-    public function create(Request $patientPayload)
+    public function create(Request $patientPayload): array
     {
         $patientPayload->id = uuid_create();
 
         $patientDTO = new PatientDTO($patientPayload);
 
         $patient = $this->patientsRepository->create($patientDTO);
-        
+
         if(!empty($patient) && $patientDTO->reason == 2){
             $this->createHospitalization(
-                $patientPayload, 
+                $patientPayload,
                 $patient->uuid
             );
         }
 
-        return $patient;
+        return $patient->toArray();
     }
 
     public function update(PatientDTO $patientDTO): stdClass|null|bool
@@ -79,16 +79,16 @@ class PatientsServices
         return $this->hospitalizedRepository->create($patientDTO);
     }
 
-    public function findAllPatients($filterParam): mixed
+    public function findAllPatients($filterParam): ?array
     {
         $patients = $this->patientsRepository->findAllPatients($filterParam);
-        
+
         foreach($patients as $patient){
             $patient['reason']     = $this->getReason($patient['reason']);
             $patient['created_at'] = $this->formatDate($patient['created_at']);
         }
 
-        return $patients;
+        return $patients->toArray();
     }
 
     private function getReason($reasonId): string

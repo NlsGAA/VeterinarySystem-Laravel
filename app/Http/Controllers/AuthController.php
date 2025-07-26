@@ -22,16 +22,10 @@ class AuthController extends Controller
         try {
             $user = $this->userServices->create($request);
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Não foi possível cadastrar o usuário '
-            ], status: 403);
+            return $this->sendError($e->getMessage(), 403);
         }
 
-        return response()->json([
-            'message'   => 'Sucesso',
-            'user'      => $user,
-            'status'    => 200
-        ], 200);
+        return $this->sendResponse("Usuário cadastrado com sucesso!", $user);
     }
 
     public function login(Request $request): JsonResponse
@@ -39,16 +33,13 @@ class AuthController extends Controller
         try {
             $response = $this->userServices->findOne($request);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
 
-        return response()->json([
-            'status'    => 'success',   
-            'data'      => [
-                'token' => $response,
-                'token_type' => 'Bearer',
-            ],
-        ], 200);
+        return $this->sendResponse("Usuário logado com sucesso!", [
+            'token' => $response,
+            'token_type' => 'Bearer',
+        ]);
     }
 
     public function update(Request $request): JsonResponse
@@ -56,29 +47,21 @@ class AuthController extends Controller
         try {
             $response = $this->userServices->update($request);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
-        return response()->json([
-            'status'    => 'success',
-            'data'      => $response,
-            'message'   => "Usuário atualizado com sucesso!",
-        ], 200);
+
+        return $this->sendResponse("Usuário atualizado com sucesso!", $response->toArray());
     }
 
-    public function authUser(): JsonResponse    
+    public function authUser(): JsonResponse
     {
         try {
             $user = $this->userServices->authUser();
         } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Não foi possível resgatar usuário'
-            ], status: 500);
+            return $this->sendError($th->getMessage());
         }
 
-        return response()->json([
-            'message' => 'success',
-            'user' => $user,
-        ], 200);
+        return $this->sendResponse("Usuário autenticado com sucesso!", $user);
     }
 
 }

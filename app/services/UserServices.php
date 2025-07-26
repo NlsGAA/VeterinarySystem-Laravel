@@ -2,15 +2,14 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Api\AuthRequest;
 use App\Models\User;
-use App\Repositories\Users\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use InvalidArgumentException;
+use App\Http\Requests\Api\AuthRequest;
+use App\Repositories\Users\UserRepository;
 
-class UserServices 
+class UserServices
 {
     public function __construct(
         private UserRepository $userRepository,
@@ -23,13 +22,13 @@ class UserServices
     }
 
     public function create(AuthRequest $request)
-    {    
+    {
         $user = User::create([
             'email'     => $request->email,
             'name'      => $request->name,
             'password'  => Hash::make($request->password)
         ]);
-    
+
         return $user;
     }
 
@@ -45,17 +44,17 @@ class UserServices
         $credentials = $request->only('email', 'password');
 
         if(!Auth::attempt($credentials)) {
-            throw new InvalidArgumentException('Email/Senha incorretos!');
+            throw new \InvalidArgumentException('Email/Senha incorretos!');
         }
-        
+
         $user = User::where('email', $request->email)->first();
         $user->tokens()->delete();
         $token = $user->createToken('auth_token')->plainTextToken;
         return $token;
     }
 
-    public function authUser()
+    public function authUser(): array
     {
-        return Auth::user();
+        return Auth::user()->toArray();
     }
 }

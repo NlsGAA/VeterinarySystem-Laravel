@@ -21,13 +21,10 @@ class HospitalizedController extends Controller
         try {
             $patient = $this->hospitalizedServices->create(new CreateHospitalizedDTO($request));
         } catch (Exception $e) {
-            return $e;
+            return $this->sendError($e->getMessage());
         }
 
-        return response()->json([
-            'pacientes' => $patient,
-            'message' => 'Paciente cadastrado com sucesso!'
-        ], 200);
+        return $this->sendResponse("Paciente cadastrado com sucesso!", $patient, 201);
     }
 
     public function index(Request $filter)
@@ -35,27 +32,21 @@ class HospitalizedController extends Controller
         try {
             $patients = $this->hospitalizedServices->index($filter);
         } catch (Exception $e) {
-            return 'Não foi possível recuperar os pacientes! ' . $e;
+            return $this->sendError($e->getMessage());
         }
 
-        return response()->json([
-            'pacientes' => $patients,
-            'message' => 'Pacientes recuperados com sucesso!',
-        ], 200);
+        return $this->sendResponse("Pacientes recuperados com sucesso!", $patients);
     }
 
     public function show(string $id)
     {
         try {
-            $patient = $this->hospitalizedServices->findOne($id);
+            $patient = $this->hospitalizedServices->findOne($id)->toArray();
         } catch (Exception $e) {
-            return $e;
+            return $this->sendError($e->getMessage());
         }
 
-        return response()->json([
-            'pacientes' => $patient,
-            'status' => 200
-        ], 200);
+        return $this->sendResponse("Paciente recuperado com sucesso!", $patient);
     }
 
     public function delete(string $id)
@@ -63,13 +54,10 @@ class HospitalizedController extends Controller
         try {
             $patient = $this->hospitalizedServices->delete($id);
         } catch (Exception $e) {
-            throw new Exception($e);
+            return $this->sendError($e->getMessage());
         }
 
-        return response()->json([
-            'message' => 'Paciente deletado com sucesso!',
-            'status' => 200
-        ], 200);
+        return $this->sendResponse("Paciente deletado com sucesso!", $patient);
     }
 
     public function update(Request $request, string $id): JsonResponse
@@ -77,11 +65,9 @@ class HospitalizedController extends Controller
         try {
             $patient = $this->hospitalizedServices->update($request, $id);
         } catch (Exception $e) {
-            throw new Exception("Não foi possível atualizar cadastro" . $e);
+            return $this->sendError($e->getMessage());
         }
-        return response()->json([
-            'pacientes' => $patient,
-            'status' => 200
-        ], 200);
+
+        return $this->sendResponse("Paciente atualizado com sucesso!", $patient);
     }
 }

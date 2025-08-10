@@ -1,12 +1,10 @@
-<?php 
+<?php
 
 namespace App\Repositories\Hospitalized;
 
-use App\Repositories\Contracts\BaseRepository;
-use App\Models\HospitalizedPatients;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\HospitalizedPatients;
+use App\Repositories\Contracts\BaseRepository;
 
 class HospitalizedRepository extends BaseRepository implements HospitalizedRepositoryInterface
 {
@@ -16,7 +14,7 @@ class HospitalizedRepository extends BaseRepository implements HospitalizedRepos
         parent::__construct($this->hospitalizedPatients);
     }
 
-    public function getAll(): array|Collection
+    public function getAll(): array
     {
         $patients = $this->hospitalizedPatients
             ->join('patients', 'hospitalization.patient_id', 'patients.id')
@@ -26,7 +24,8 @@ class HospitalizedRepository extends BaseRepository implements HospitalizedRepos
                 'hospitalized_situation.name as name_situation',
                 'users.name as doctor_name')
             ->orderBy('hospitalization.created_at', 'asc')
-            ->get();
+            ->get()
+            ->toArray();
 
         return $patients;
     }
@@ -35,8 +34,9 @@ class HospitalizedRepository extends BaseRepository implements HospitalizedRepos
         $patient = DB::table('hospitalization')
             ->where('patient_id', 'like', $patientId)
             ->whereNull('deleted_at')
-            ->first();
-            
+            ->first()
+            ->toArray();
+
         return $patient;
     }
 }

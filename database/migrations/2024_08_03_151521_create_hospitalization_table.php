@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('hospitalization', function (Blueprint $table) {
             $table->id();
-            $table->integer('patient_id');
+            $table->uuid('patient_id');
             $table->integer('doctor_id');
             $table->integer('situation_id');
             $table->integer('updated_by');

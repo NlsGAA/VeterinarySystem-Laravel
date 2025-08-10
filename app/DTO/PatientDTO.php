@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\DTO;
 
@@ -26,7 +26,7 @@ class PatientDTO
     public function __construct(Request $request, $patientId = null)
     {
         $this->user_id      = auth()->user()->id;
-        $this->id           = $request->id;
+        $this->id           = uuid_create();
         $this->name         = $request->name;
         $this->breed        = $request->breed;
         $this->species      = $request->species;

@@ -23,7 +23,7 @@ class HospitalizedPatients extends Model
     ];
 
     protected $cast = [
-        'patient_id' => 'integer|required',
+        'patient_id' => 'uuid|required',
         'doctor_id' => 'integer|required',
         'situation_id' => 'integer|required',
         'updated_by' => 'integer|nullable',

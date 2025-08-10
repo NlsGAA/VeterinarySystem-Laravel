@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services;
 
@@ -17,11 +17,22 @@ class HospitalizedServices
         $this->carbon->setLocale('pt-BR');
     }
 
+    /**
+     * Find a hospitalized patient by id
+     *
+     * @param string $id
+     */
     public function findOne(string $id)
     {
         return $this->hospitalizedRepository->findOne($id);
     }
 
+    /**
+     * Display a list of all hospitalized patients
+     *
+     * @param Request $filter
+     * @return array
+     */
     public function index(Request $filter)
     {
         $data = [];
@@ -37,11 +48,23 @@ class HospitalizedServices
         return $data;
     }
 
+    /**
+     * Create a new hospitalized patient
+     *
+     * @param CreateHospitalizedDTO $hospitalizedDTO
+     * @return array
+     */
     public function create(CreateHospitalizedDTO $hospitalizedDTO)
     {
         return $this->hospitalizedRepository->create($hospitalizedDTO);
     }
 
+    /**
+     * Update a hospitalized patient
+     *
+     * @param Request $hospitalizedPayload
+     * @param string $id
+     */
     public function update(Request $hospitalizedPayload, string $id): stdClass|null|bool
     {
         $hospitalized = $this->hospitalizedRepository->findBy('patient_id', $id);
@@ -50,7 +73,13 @@ class HospitalizedServices
         return $this->hospitalizedRepository->update($hospitalizedDTO);
     }
 
-    public function delete(string $id)
+    /**
+     * Delete a hospitalized patient
+     *
+     * @param string $id
+     * @return void
+     */
+    public function delete(string $id): void
     {
         $hospitalized = $this->hospitalizedRepository->findBy('patient_id', $id);
         $this->hospitalizedRepository->delete($hospitalized->id);

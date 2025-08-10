@@ -14,7 +14,13 @@ class OwnersController extends Controller
 
     public function index()
     {
-        return $this->ownersServices->index();
+        try {
+            $owners = $this->ownersServices->index();
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
+        }
+
+        return $this->sendResponse("Registros recuperados com sucesso!", $owners);
     }
 
     public function update(Request $request)
@@ -22,13 +28,10 @@ class OwnersController extends Controller
         try {
             $this->ownersServices->update($request);
         } catch (\Exception $e) {
-            return 'Erro ao atualizar dono';
+            return $this->sendError($e->getMessage());
         }
-        
-        return response()->json([
-            'message' => 'Cadastro atualizado com sucesso!',
-            'status' => 'success',
-        ], 200);
+
+        return $this->sendResponse("Cadastro atualizado com sucesso!", null);
     }
 
     public function delete(string $id)
@@ -36,12 +39,10 @@ class OwnersController extends Controller
         try {
             $this->ownersServices->delete($id);
         } catch (\Exception $e) {
-            return 'Não foi possível deletar dono';
+            return $this->sendError($e->getMessage());
         }
 
-        return response()->json([
-            'message' => 'Dono deletado com sucesso!',
-        ], 200);
+        return $this->sendResponse("Tutor deletado com sucesso!", null);
     }
 
 }

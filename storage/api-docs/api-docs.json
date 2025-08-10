@@ -1,0 +1,216 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "VetSystem API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "API server"
+        }
+    ],
+    "paths": {
+        "/patients": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Lista todos os pacientes",
+                "operationId": "da9c9c932538374e5ca3fe262efd823b",
+                "responses": {
+                    "200": {
+                        "description": "Pacientes recuperados com sucesso"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Atualiza os dados de um paciente",
+                "operationId": "d2f0f5b8d7027f8678787f20f5691ebc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "João da Silva Atualizado"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "joao@email.com"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1990-01-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Paciente atualizado com sucesso"
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Cadastra um novo paciente",
+                "operationId": "8c056523a4dfe0141b458d63beea8f79",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "João da Silva"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "joao@email.com"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1990-01-01"
+                                    },
+                                    "tutor_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Paciente cadastrado com sucesso"
+                    },
+                    "400": {
+                        "description": "Dados inválidos"
+                    }
+                }
+            }
+        },
+        "/patients/{id}": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Recupera os dados de um paciente",
+                "operationId": "6b6513e50ce5729af41fb0ef08925f7d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paciente recuperado com sucesso"
+                    },
+                    "404": {
+                        "description": "Paciente não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Remove um paciente",
+                "operationId": "edb5dddba425ed1ca1448a4220856683",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paciente deletado com sucesso"
+                    },
+                    "404": {
+                        "description": "Paciente não encontrado"
+                    }
+                }
+            }
+        },
+        "/patients/dashboard": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Retorna pacientes para o dashboard, com filtros opcionais",
+                "operationId": "362ee50284a3d21b8b71ce64963232fd",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filtro de busca",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pacientes recuperados com sucesso"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Pacientes",
+            "description": "Pacientes"
+        }
+    ]
+}

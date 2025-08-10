@@ -15,7 +15,11 @@ class MailService
     ){
     }
 
-
+    /**
+     * Send email
+     *
+     * @return void
+     */
     public function send(): void
     {
         Mail::to(

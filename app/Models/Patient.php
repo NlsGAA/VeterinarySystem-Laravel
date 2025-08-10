@@ -12,7 +12,7 @@ class Patient extends Model
     use SoftDeletes;
 
     protected $keyType = 'string';
-    
+
     public $incrementing = false;
 
     public $timestamps  = false;
@@ -53,7 +53,7 @@ class Patient extends Model
         'reason'        => 'string',
         'user_id'       => 'string',
     ];
-    
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');
@@ -63,7 +63,7 @@ class Patient extends Model
     {
         return $this->belongsTo(Owners::class, 'owner_id', 'id');
     }
-    
+
     public static function findWithOwner($patientId)
     {
         return self::query()

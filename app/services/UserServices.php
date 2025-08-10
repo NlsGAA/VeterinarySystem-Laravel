@@ -16,11 +16,23 @@ class UserServices
     ){
     }
 
-    public function index($request)
+    /**
+     * Display a list of all users
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function index(Request $request)
     {
         return $this->userRepository->getAll($request);
     }
 
+    /**
+     * Create a new user
+     *
+     * @param AuthRequest $request
+     * @return User
+     */
     public function create(AuthRequest $request)
     {
         $user = User::create([
@@ -32,6 +44,12 @@ class UserServices
         return $user;
     }
 
+    /**
+     * Update a user
+     *
+     * @param Request $request
+     * @return User
+     */
     public function update(Request $request)
     {
         $user = $this->userRepository->findOne($request->id);
@@ -39,6 +57,12 @@ class UserServices
         return $user;
     }
 
+    /**
+     * Delete a user
+     *
+     * @param Request $request
+     * @return User
+     */
     public function findOne(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -53,6 +77,11 @@ class UserServices
         return $token;
     }
 
+    /**
+     * Display the authenticated user
+     *
+     * @return array
+     */
     public function authUser(): array
     {
         return Auth::user()->toArray();

@@ -1,7 +1,7 @@
-<?php 
+<?php
 namespace App\Repositories\Contracts\Patients;
-use App\Repositories\Contracts\BaseRepository;
+use App\Repositories\Contracts\BaseRepositoryInterface;
 
-interface PatientsStatusRepositoryInterface extends BaseRepository
+interface PatientsStatusRepositoryInterface extends BaseRepositoryInterface
 {
 }
